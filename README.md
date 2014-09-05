@@ -4,7 +4,7 @@
 
 *Konga metadata* is a metadata definer, generator and storer. It provides enough information about entities and fields to make *Konga* aware about all the data types available for the application, and their full documentation as well. This project configures:
 
-´´´
+```
 metadata: {
 	entities: [
 		{
@@ -91,4 +91,4 @@ metadata: {
 	],
 	...
 }
-´´´
+```
