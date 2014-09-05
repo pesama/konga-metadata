@@ -21,8 +21,7 @@ metadata: {
 			apiName: 'string', 				// name of the object within the api
 			apiPath: 'string', 				// path of the api operations for this entity
 			categories: 'string[]', 		// placeholders to the names of the form categories
-											// (Object) access information for the entity type
-			access: {						
+			access: {						// (Object) access information for the entity type
 				permissions: 'string', 			// definition of the permissions for the owner, group, and public.
 				roles: [ 						// Array with all roles defined for the entity
 					{
@@ -31,8 +30,7 @@ metadata: {
 					}
 				]
 			},
-												// array with all fields for the entity
-			fields: [ 							
+			fields: [ 							// array with all fields for the entity
 				{
 					name: 'string', 			// computer-readable name for the field
 					label: 'string', 			// placeholder for the human-readable name of the field
@@ -49,30 +47,25 @@ metadata: {
 					categories: 'string[]', 	// placeholders to the names of the field categories
 					apiName: 'string', 			// name of the field within the api (for querying)
 					fieldType: 'enum', 			// how the field should be rendered as
-												// search configuration for the entity
-					searchConf: { 				
+					searchConf: { 				// search configuration for the entity
 						policy: 'enum', 			// format of the search for this object (e.g. exact match, range, wildcards)
-						multiplicity: 'enum' 		// multiplicity of the search input (one, many)
+						multiplicity: 'enum', 		// multiplicity of the search input (one, many)
 					},
 					unique: 'boolean', 			// whether the value of this field mustn't be duplicated
-												// (Object) access information for the entity type
-					access: {					
+					access: {					// (Object) access information for the entity type
 						permissions: 'string', 		// definition of the permissions for the owner, group, and public.
-													// Array with all roles defined for the entity
-						roles: [ 					
+						roles: [ 					// Array with all roles defined for the entity
 							{
 								name: 'string', 		// Name of the role
 								permission: 'number' 	// permissions for the role
 							}
 						]
 					},
-												// validation object definition
-					validation: {				
+					validation: {				// validation object definition
 						required: 'boolean', 		// whether the field is required for the entity
 						minLength: 'number', 		// Minimum length for the input
 						maxLength: 'number', 		// Maximum length for the input
-													// array with all validators for the field
-						validators: [ 				
+						validators: [ 				// array with all validators for the field
 							{
 								type: 'enum', 			// validator type (e.g. regexp, function...)
 								value: 'string' 		// value for the validator
@@ -80,13 +73,11 @@ metadata: {
 						]
 
 					},
-												// array with all triggers for the entity changes
-					triggers: [ 				
+					triggers: [ 				// array with all triggers for the entity changes
 						match: 'enum', 				// type of the trigger (e.g. value, length...)
 						moment: 'enum', 			// when to launch the trigger (immediate, commit)
 						type: 'enum', 				// type of the trigger (e.g. alert, confirm)
-													// array of parameters for the trigger
-						parameters: [ 				
+						parameters: [ 				// array of parameters for the trigger
 							{
 								source: 'enum', 		// type of the parameter (e.g. label, $scope, value...)
 								type: 'enum', 			// data-type of the parameter
