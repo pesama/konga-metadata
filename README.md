@@ -221,7 +221,7 @@ All entities that are part of a *Konga powered* application must provide the inf
 
 With Java is really easy to define entities and fields inline, so the same POJOs that contain the data model configure also the metadata, and thus all information will be at the same place.
 
-There are several annotations available for configuring entities and fields:
+`konga-java-annotations` provides several annotations available for configuring entities and fields:
 
 | Annotation     | Level  | Parameters       | Description                                         |
 | ------------   | ------ | ---------------- | --------------------------------------------------- |
