@@ -225,35 +225,35 @@ There are several annotations available for configuring entities and fields:
 
 | Annotation     | Level  | Parameters       | Description                                         |
 | ------------   | ------ | ---------------- | --------------------------------------------------- |
-| @Entity        | entity | value            | Define an entity and provide its name               |
-| @Label         | all    | value            | Define the placeholder for the human-readable name  |
-| @Searchable    | all    | _none_           | The entity or field would be used for searches      |
-| @Createable    | entity | _none_           | New entities of this type would be created          |
-| @Editable      | all    | _none_           | The entity or field would be modified               |
-| @Deleteable    | entity | _none_           | The entities of this type would be deleted          |
-| @Access        | all    | value            | Define the visibility (public, restricted, hidden)  |
-| @FormType      | entity | value            | Define the form type                                |
-| @Categories    | all    | value[]          | Define the categories of the entity or field        |
-| @Permissions   | all    | value            | Define the permissions of the entity or field       |
-| @Role          | all    | name, permission | Define a role name and its permissions              |
-| @ApiName       | all    | value            | Define the name of the entity or field in the api   |
-| @ApiPath       | entity | value            | Define the path of the entity in the api            |
-| @Field         | field  | value            | Define a field and provide its name    			   |
-| @Multiplicity  | field  | value            | Define the multiplicity of the field (one, many)    |
-| @ShowInResults | field  | _none_           | The field will be shown in the results pane         |
-| @ShowInUpdate  | field  | _none_           | The field will be shown in the update pane          |
-| @ShowInDetails | field  | _none_           | The field will be shown in the details pane         |
-| @Required      | field  | _none_           | The field is required for the entity                |
-| @MinLength     | field  | value            | The field's minimum length                          |
-| @MaxLength     | field  | value            | The field's maximum length                          |
-| @Validator     | field  | type, value      | Define a new validator for the field                |
-| @Trigger       | field  | name, match, moment, scope, type | Define a new trigger                |
-| @TriggerParam  | field  | trigger, param, source, type | Define a new trigger param for a trigger|
-| @Unique        | field  | _none_           | Define the field as unique                          |
-| @EntityId      | field  | _none_           | The field will be the unique id of the entity       |
-| @EntityKey     | field  | _none_           | The field will be the human-readable key            |
-| @EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
-| @FieldType     | field  | value            | Define the name of the field type to use            |
+| Entity        | entity | value            | Define an entity and provide its name               |
+| Label         | all    | value            | Define the placeholder for the human-readable name  |
+| Searchable    | all    | _none_           | The entity or field would be used for searches      |
+| Createable    | entity | _none_           | New entities of this type would be created          |
+| Editable      | all    | _none_           | The entity or field would be modified               |
+| Deleteable    | entity | _none_           | The entities of this type would be deleted          |
+| Access        | all    | value            | Define the visibility (public, restricted, hidden)  |
+| FormType      | entity | value            | Define the form type                                |
+| Categories    | all    | value[]          | Define the categories of the entity or field        |
+| Permissions   | all    | value            | Define the permissions of the entity or field       |
+| Role          | all    | name, permission | Define a role name and its permissions              |
+| ApiName       | all    | value            | Define the name of the entity or field in the api   |
+| ApiPath       | entity | value            | Define the path of the entity in the api            |
+| Field         | field  | value            | Define a field and provide its name    			   |
+| Multiplicity  | field  | value            | Define the multiplicity of the field (one, many)    |
+| ShowInResults | field  | _none_           | The field will be shown in the results pane         |
+| ShowInUpdate  | field  | _none_           | The field will be shown in the update pane          |
+| ShowInDetails | field  | _none_           | The field will be shown in the details pane         |
+| Required      | field  | _none_           | The field is required for the entity                |
+| MinLength     | field  | value            | The field's minimum length                          |
+| MaxLength     | field  | value            | The field's maximum length                          |
+| Validator     | field  | type, value      | Define a new validator for the field                |
+| Trigger       | field  | name, match, moment, scope, type | Define a new trigger                |
+| TriggerParam  | field  | trigger, param, source, type | Define a new trigger param for a trigger|
+| Unique        | field  | _none_           | Define the field as unique                          |
+| EntityId      | field  | _none_           | The field will be the unique id of the entity       |
+| EntityKey     | field  | _none_           | The field will be the human-readable key            |
+| EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
+| FieldType     | field  | value            | Define the name of the field type to use            |
 
 
 
