@@ -125,9 +125,12 @@ The format of the access contains two objects:
 
 * `permissions`: Defines the permissions the different entity allows to the users related to it. It's a decimal number composed by the concatenation of the three permissions (i.e. owner, group, public). Each permission is a decimal number result of the parsing of a six-digit binary number, where each digit seems:
 
-** *readable:* Whether the entity or field could be read.
-** *editable:* Whether the entity or field could be editable.
-TODO
+| Digit | Attribute | Description 							|
+| ----- | --------- | ------------------------------------- |
+| 0		| readable  | whether the item would be accessed.   |
+| 1     | editable  | whether the item would be edited.     |
+| 2     | deletable | whether the item would be deleted.    |
+
 
 * `roles`: The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
 
