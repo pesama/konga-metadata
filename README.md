@@ -254,10 +254,3 @@ There are several annotations available for configuring entities and fields:
 | EntityKey     | field  | _none_           | The field will be the human-readable key            |
 | EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
 | FieldType     | field  | value            | Define the name of the field type to use            |
-
-
-
-parameters
-source
-type
-value
