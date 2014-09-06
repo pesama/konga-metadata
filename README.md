@@ -1,4 +1,4 @@
-# Konga Project (`konga-metadata`)
+# Konga Metadata `konga-project`
 
 ## Overview
 
@@ -256,7 +256,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | FieldType     | field  | value            | Define the name of the field type to use            |
 
 #### Generator
-The annotation framework contains a `Generator` class that converts the annotated elements in metadata definitions to be sent to the ui.
+The annotation framework contains a `KongaGenerator` class that converts the annotated elements in metadata definitions to be sent to the ui.
 
 Example:
 
