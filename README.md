@@ -200,7 +200,7 @@ Defines the type of action the trigger must dispatch
 #### Parameters
 
 Triggers receive arguments that configure further the trigger. Each parameter is defined with a `type` object that define the data type, and a `value` string, which define the value of the parameter. 
-*The first parameter that must be provided is the value that dispatches the trigger.*
+**The first parameter that must be provided is the value that dispatches the trigger.**
 
 Furthermore, each parameter define a `source` attribute that defines where's the value coming from
 
@@ -270,7 +270,7 @@ The returning `KongaMetadata` object will contain information about all the appl
 
 Below examples offer an overview on the usage of all annotations to define a fully defined metadata description.
 
-*Parent class:*
+##### Parent class:
 
 ```java
 @Entity("demo-parent")
