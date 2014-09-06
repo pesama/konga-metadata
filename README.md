@@ -50,6 +50,7 @@ metadata: {
 					categories: 'string[]', 	// placeholders to the names of the field categories
 					apiName: 'string', 			// name of the field within the api (for querying)
 					fieldType: 'enum', 			// how the field should be rendered as
+					defaults: 'string', 		// default value for the field (inline string)
 					searchConf: { 				// search configuration for the entity
 						policy: 'enum', 			// format of the search for this object (e.g. exact match, range, wildcards)
 						multiplicity: 'enum', 		// multiplicity of the search input (one, many)
@@ -81,6 +82,7 @@ metadata: {
 						moment: 'enum', 			// when to launch the trigger (immediate, commit)
 						scope: 'enum', 				// the mode of the field (search, update, all)
 						type: 'enum', 				// type of the trigger (e.g. alert, confirm)
+						matchType: 'enum', 			// Type of the match (e.g. exact-match, regexp...)
 						parameters: [ 				// array of parameters for the trigger
 							{
 								source: 'enum', 		// type of the parameter (e.g. label, $scope, value...)
@@ -247,13 +249,14 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*MinLength     | field  | value            | The field's minimum length                          |
 | *@*MaxLength     | field  | value            | The field's maximum length                          |
 | *@*Validator     | field  | type, value      | Define a new validator for the field                |
-| *@*Trigger       | field  | name, match, moment, scope, type | Define a new trigger                |
+| *@*Trigger     | field  | name, match, moment, scope, type, value, matchType | Define a new trigger|
 | *@*TriggerParam  | field  | trigger, param, source, type | Define a new trigger param for a trigger|
 | *@*Unique        | field  | _none_           | Define the field as unique                          |
 | *@*EntityId      | field  | _none_           | The field will be the unique id of the entity       |
 | *@*EntityKey     | field  | _none_           | The field will be the human-readable key            |
 | *@*EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
 | *@*FieldType     | field  | value            | Define the name of the field type to use            |
+| *@*Defaults 	   | field  | value            | Define the default value for the field              |
 
 #### Generator
 The annotation framework contains a `KongaGenerator` class that converts the annotated elements in metadata definitions to be sent to the ui.
@@ -277,8 +280,8 @@ Below examples offer an overview on the usage of all annotations to define a ful
 @Label("message.entities.demo-parent")
 @Createable
 @Editable
-@Access("hidden")
-@FormType("cascade")
+@Access(Access.HIDDEN)
+@FormType(FormType.CASCADE)
 @Categories({"message.categories.common", "message.categories.example")
 @Permissions("3f3f10")
 @Role(name="admin-demo-parent-data", permission="32")
@@ -323,5 +326,35 @@ abstract class DemoParent {
 
 		// Getters and setters
 		...
+}
+```
+
+##### Child class
+
+```java
+@Entity("demo-child")
+@Label("message.entities.demo-child")
+@Createable
+@Editable
+@Deleteable
+@Access("hidden")
+@FormType("cascade")
+@Categories({"message.categories.common", "message.categories.example")
+@Permissions("3f3f10")
+@Role(name="view-demo-child", permission="10")
+final class DemoChild extends DemoParent {
+
+	@Field("active")
+	@Label("message.fields.demo-child.active")
+	@Editable
+	@Searchable
+	@ShowInResults
+	@ShowInDetails
+	@ShowInUpdate
+	@Trigger(name="disable-entity", match="value", type=Validation.EXACT_MATCH, moment=Moment.IMMEDIATE, scope=Scope.UPDATE, )
+	private boolean active;
+	
+	// Fields and methods
+	...
 }
 ```
