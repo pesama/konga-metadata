@@ -264,5 +264,5 @@ Example:
 KongaMetadata appMetadata = KongaGenerator.readPackage("com.example.project");
 ```
 
-The returning `KongaMetadata` object will contain information about all the application, and it's ready to be sent to any REST request, in a `json` format.
+The returning `KongaMetadata` object will contain information about all the application, and it's ready to be sent to any REST request, in _json_ format.
 
