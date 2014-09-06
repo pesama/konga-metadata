@@ -108,15 +108,20 @@ The forms and their fields could be configured to be rendered in different ways,
 
 #### Enum formType
 
-* *cascade:* show the form fields inline, without any templating.
-* *tabbed:* show the form fields in separate tabs, depending on their categories.
+| Value    | Description                                                             |
+| -------- | ----------------------------------------------------------------------- |
+| cascade  | show the form fields inline, without any templating.                    |
+| tabbed   | show the form fields in separate tabs, depending on their categories.   |
 
 #### Enum fieldType
 
-* *string:* show a plain input, for string values.
-* *number:* show a plain input, for numeric values.
-* *date:* show a date input.
-* *select*: shows an input with a modal for selecting the items. A source list must be provided as input, whose configuration must be set in the field's `configuration` parameter
+| Value    | Field Type    | Accepts   | Input 		                                 |
+| -------- | ------------- | --------- | ------------------------------------------- |
+| string   | plain         | string    |  											 |
+| number   | plain         | number    | 											 |
+| date     | date          | date      | 											 |
+| select   | plain + modal | complex   | List of possible values                     |	
+
 
 ### Access control
 
