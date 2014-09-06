@@ -1,8 +1,8 @@
-# Konga Project (*konga-metadata*)
+# Konga Project (`konga-metadata`)
 
 ## Overview
 
-*Konga metadata* is a metadata definer, generator and storer. It provides enough information about entities and fields to make *Konga* aware about all the data types available for the application, and their full documentation as well. This project configures:
+`konga-metadata` is a metadata definer, generator and storer. It provides enough information about entities and fields to make *Konga* aware about all the data types available for the application, and their full documentation as well. This project configures:
 
 ```
 metadata: {
@@ -79,6 +79,7 @@ metadata: {
 					triggers: [ 				// array with all triggers for the entity changes
 						match: 'enum', 				// type of the trigger (e.g. value, length...)
 						moment: 'enum', 			// when to launch the trigger (immediate, commit)
+						scope: 'enum', 				// the mode of the field (search, update, all)
 						type: 'enum', 				// type of the trigger (e.g. alert, confirm)
 						parameters: [ 				// array of parameters for the trigger
 							{
@@ -96,7 +97,7 @@ metadata: {
 }
 ```
 
-## Object definition
+## Metadata definition
 
 ### Basic information
 
@@ -115,13 +116,15 @@ The forms and their fields could be configured to be rendered in different ways,
 
 #### Enum fieldType
 
-| Value    | Field Type    | Accepts   | Input 		                                 |
-| -------- | ------------- | --------- | ------------------------------------------- |
-| string   | plain         | string    |  											 |
-| number   | plain         | number    | 											 |
-| date     | date          | date      | 											 |
-| select   | plain + modal | complex   | List of possible values                     |	
-
+| Value    | Field Type    | Accepts      | Input 		                                 |
+| -------- | ------------- | ---------    | -------------------------------------------- |
+| string   | plain         | string       |  											 |
+| number   | plain         | number       | 											 |
+| boolean  | radio buttons | boolean      |                                              |
+| checkbox | checkboxes    | boolean[]    |                                              |
+| date     | date          | date         | 											 |
+| select   | plain + modal | complex 1+   | List of possible values                      |
+| list     | table + modal | complex many | List of possible values                      |
 
 ### Access control
 
@@ -148,10 +151,113 @@ For validation purposes, several field metadata attributes (i.e. `required`, `mi
 
 Each validator will have a `type` attribute (which could be regexp, function...), and a `string` value defining the validator format.
 
-### Search field configuration
+### Field configuration
 
-TODO
+In update mode, fields are rendered as-is. However, fields in search panes could be configured differently so they allow different search policies:
+
+| Policy      | Render Configuration   | Description                                              |
+| ----------- | ---------------------- | -------------------------------------------------------- |
+| exact-match | One field              | search the exact value                                   |
+| range       | Two fields + combo-box | search a range of values (e.g. minor/major, between...)  |
+| wildcards   | One field              | search for wildcards (e.g. '*')                          |
+| regexp      | One field              | search for regular expressions                           |
+| select      | One field + modal      | select from a set of possible values (given in input)    |
 
 ### Field triggers
 
-TODO
+Triggers are event configurations that define actions to be dispatched when the field complies with the given attributes of the trigger.
+
+#### Match
+
+This parameter defines what type of match the trigger uses.
+
+| Code       | Description                                    | Required parameters               |
+| ---------- | ---------------------------------------------- | --------------------------------- |
+| value      | controls the value of the field                | value to match                    |
+| length     | controls the length of the input               | length to match                   |
+
+#### Moment
+
+Triggers could also configure when the event must be dispatched. Possible values are `immediate` (for dispatching in the same moment the trigger match), or `commit` (for dispatching on commit).
+
+#### Scope
+
+Triggers are only executed if the field mode matches the scope of the trigger:
+
+| Scope      | Description                                    | 
+| ---------- | ---------------------------------------------- | 
+| search     | trigger is dispatched on search forms          | 
+| update     | trigger is dispatched on update forms          | 
+
+#### Type
+
+Defines the type of action the trigger must dispatch
+
+| Code       | Description                                    | Required parameters               |
+| ---------- | ---------------------------------------------- | --------------------------------- |
+| confirm    | displays a confirmation and commits            | title, message, callbacks         |
+
+#### Parameters
+
+Triggers receive arguments that configure further the trigger. Each parameter is defined with a `type` object that define the data type, and a `value` string, which define the value of the parameter. 
+*The first parameter that must be provided is the value that dispatches the trigger.*
+
+Furthermore, each parameter define a `source` attribute that defines where's the value coming from
+
+| Source     | Type     | Value definition                                  |
+| ---------- | -------- | ------------------------------------------------- |
+| label      | string   | the placeholder for a label                       |
+| $scope     | string   | the name of a scope property                      |
+| inline     | any      | a JavaScript evaluable string                     |
+| custom     | string   | the name of a custom function defined on the ui   |
+
+## Object definition
+
+All entities that are part of a *Konga powered* application must provide the information about their entities and fields, that will be asked for by the user interface on application initialization.
+
+`konga-metadata` provides several tools for defining entities and fields, depending on the programming language of the backend, or the preferences of the developer.
+
+### Java Annotations
+
+With Java is really easy to define entities and fields inline, so the same POJOs that contain the data model configure also the metadata, and thus all information will be at the same place.
+
+There are several annotations available for configuring entities and fields:
+
+| Annotation     | Level  | Parameters       | Description                                         |
+| ------------   | ------ | ---------------- | --------------------------------------------------- |
+| @Entity        | entity | value            | Define an entity and provide its name               |
+| @Label         | all    | value            | Define the placeholder for the human-readable name  |
+| @Searchable    | all    | _none_           | The entity or field would be used for searches      |
+| @Createable    | entity | _none_           | New entities of this type would be created          |
+| @Editable      | all    | _none_           | The entity or field would be modified               |
+| @Deleteable    | entity | _none_           | The entities of this type would be deleted          |
+| @Access        | all    | value            | Define the visibility (public, restricted, hidden)  |
+| @FormType      | entity | value            | Define the form type                                |
+| @Categories    | all    | value[]          | Define the categories of the entity or field        |
+| @Permissions   | all    | value            | Define the permissions of the entity or field       |
+| @Role          | all    | name, permission | Define a role name and its permissions              |
+| @ApiName       | all    | value            | Define the name of the entity or field in the api   |
+| @ApiPath       | entity | value            | Define the path of the entity in the api            |
+| @Field         | field  | value            | Define a field and provide its name    			   |
+| @Multiplicity  | field  | value            | Define the multiplicity of the field (one, many)    |
+| @ShowInResults | field  | _none_           | The field will be shown in the results pane         |
+| @ShowInUpdate  | field  | _none_           | The field will be shown in the update pane          |
+| @ShowInDetails | field  | _none_           | The field will be shown in the details pane         |
+| @Required      | field  | _none_           | The field is required for the entity                |
+| @MinLength     | field  | value            | The field's minimum length                          |
+| @MaxLength     | field  | value            | The field's maximum length                          |
+| @Validator     | field  | type, value      | Define a new validator for the field                |
+| @Trigger       | field  | name, match, moment, scope, type | Define a new trigger                |
+| @TriggerParam  | field  | trigger, param, source, type | Define a new trigger param for a trigger|
+| @Unique        | field  | _none_           | Define the field as unique                          |
+| @EntityId      | field  | _none_           | The field will be the unique id of the entity       |
+| @EntityKey     | field  | _none_           | The field will be the human-readable key            |
+| @EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
+| @FieldType     | field  | value            | Define the name of the field type to use            |
+
+
+
+parameters
+source
+type
+value
