@@ -130,6 +130,9 @@ The format of the access contains two objects:
 | 0		| readable  | whether the item would be accessed.   |
 | 1     | editable  | whether the item would be edited.     |
 | 2     | deletable | whether the item would be deleted.    |
+| 3     |           |                                       |
+| 4     |           |                                       |
+| 5     |           |                                       |
 
 
 * `roles`: The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
