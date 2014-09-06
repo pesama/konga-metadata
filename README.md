@@ -254,3 +254,15 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | EntityKey     | field  | _none_           | The field will be the human-readable key            |
 | EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
 | FieldType     | field  | value            | Define the name of the field type to use            |
+
+#### Generator
+The annotation framework contains a `Generator` class that converts the annotated elements in metadata definitions to be sent to the ui.
+
+Example:
+
+```
+KongaMetadata appMetadata = KongaGenerator.readPackage("com.example.project");
+```
+
+The returning `KongaMetadata` object will contain information about all the application, and it's ready to be sent to any REST request, in a `json` format.
+
