@@ -4,7 +4,7 @@
 
 `konga-metadata` is a metadata definer, generator and storer. It provides enough information about entities and fields to make *Konga* aware about all the data types available for the application, and their full documentation as well. This project configures:
 
-```
+```javascript
 metadata: {
 	entities: [
 		{
@@ -260,7 +260,7 @@ The annotation framework contains a `KongaGenerator` class that converts the ann
 
 Example:
 
-```
+```java
 KongaMetadata appMetadata = KongaGenerator.readPackage("com.example.project");
 ```
 
@@ -272,7 +272,7 @@ Below examples offer an overview on the usage of all annotations to define a ful
 
 *Parent class:*
 
-```
+```java
 @Entity("demo-parent")
 @Label("message.entities.demo-parent")
 @Createable
@@ -320,7 +320,7 @@ abstract class DemoParent {
 		@MaxLength(50)
 		@Validator(type=Validator.REGEXP, value="([a-z,A-Z]*[0-9]*)*")
 		private String name;
-		
+
 		// Getters and setters
 		...
 }
