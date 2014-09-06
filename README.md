@@ -268,4 +268,60 @@ The returning `KongaMetadata` object will contain information about all the appl
 
 #### Examples
 
-* 
+Below examples offer an overview on the usage of all annotations to define a fully defined metadata description.
+
+*Parent class:*
+
+```
+@Entity("demo-parent")
+@Label("message.entities.demo-parent")
+@Createable
+@Editable
+@Access("hidden")
+@FormType("cascade")
+@Categories({"message.categories.common", "message.categories.example")
+@Permissions("3f3f10")
+@Role(name="admin-demo-parent-data", permission="32")
+abstract class DemoParent {
+	
+		@Field("id")
+		@EntityId
+		@Access(Access.HIDDEN)
+		@Permissions("101010")
+		private Integer id;
+
+		@Field("key")
+		@Label("message.fields.demo-parent.key")
+		@EntityKey
+		@Editable
+		@Searchable
+		@ShowInResults
+		@ShowInDetails
+		@ShowInUpdate
+		@Permissions("3f3f3f")
+		@Required
+		@MinLength(2)
+		@MaxLength(5)
+		@Unique
+		@Validator(type=Validator.REGEXP, value=".")
+		private String key;
+
+		@Field("name")
+		@Label("message.fields.demo-parent.name")
+		@EntityLabel
+		@Editable
+		@Searchable
+		@ShowInResults
+		@ShowInDetails
+		@ShowInUpdate
+		@Permissions("3f3f3f")
+		@Required
+		@MinLength(5)
+		@MaxLength(50)
+		@Validator(type=Validator.REGEXP, value="([a-z,A-Z]*[0-9]*)*")
+		private String name;
+		
+		// Getters and setters
+		...
+}
+```
