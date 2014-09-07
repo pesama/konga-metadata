@@ -134,14 +134,14 @@ The format of the access contains two objects:
 
 * `permissions`: Defines the permissions the different entity allows to the users related to it. It's a decimal number composed by the concatenation of the three permissions (i.e. owner, group, public). Each permission is a decimal number result of the parsing of a six-digit binary number, where each digit seems:
 
-| Digit | Attribute | Description 							|
-| ----- | --------- | ------------------------------------- |
-| 0		| readable  | whether the item would be accessed.   |
-| 1     | editable  | whether the item would be edited.     |
-| 2     | deletable | whether the item would be deleted.    |
-| 3     |           |                                       |
-| 4     |           |                                       |
-| 5     |           |                                       |
+| Digit | Attribute | Description 									    |
+| ----- | --------- | ------------------------------------------------- |
+| 0		| read      | whether the item would be accessed    	        |
+| 3     | create    | whether the item would be created     		    |
+| 1     | edit      | whether the item would be edited      		    |
+| 2     | delete    | whether the item would be deleted     		    |
+| 4     | read-all  | whether the item and all subitems could be read   |
+| 5     | edit-all  | whether the item and all subitems could be edited |
 
 
 * `roles`: The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
@@ -256,6 +256,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
 | *@*FieldType     | field  | value            | Define the name of the field type to use            |
 | *@*Defaults 	   | field  | value            | Define the default value for the field              |
+| *@*SearchConf    | field  | policy, multiplicity | Configures the search for the field 			 |
 
 #### Generator
 The annotation framework contains a `KongaGenerator` class that converts the annotated elements in metadata definitions to be sent to the ui.
@@ -281,7 +282,7 @@ Below examples offer an overview on the usage of all annotations to define a ful
 @Editable
 @Access(Access.HIDDEN)
 @FormType(FormType.CASCADE)
-@Categories({"message.categories.common", "message.categories.example")
+@Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="admin-demo-parent-data", permission="32")
 abstract class DemoParent {
@@ -306,6 +307,7 @@ abstract class DemoParent {
 		@MaxLength(5)
 		@Unique
 		@Validator(type=Validator.REGEXP, value=".")
+		@Categories("message.categories.common")
 		private String key;
 
 		@Field("name")
@@ -336,9 +338,9 @@ abstract class DemoParent {
 @Createable
 @Editable
 @Deleteable
-@Access("hidden")
-@FormType("cascade")
-@Categories({"message.categories.common", "message.categories.example")
+@Access(Access.PUBLIC)
+@FormType(FormType.CASCADE)
+@Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="view-demo-child", permission="10")
 final class DemoChild extends DemoParent {
@@ -355,6 +357,37 @@ final class DemoChild extends DemoParent {
 	@TriggerParam(trigger="disable-entity", source=Trigger.SOURCE_MESSAGE, type=Type.STRING, value="message.triggers.demo-child.disable-entity.message")
 	private boolean active;
 	
+	// Fields and methods
+	...
+}
+```
+
+##### Another class
+
+```java
+@Entity("demo-relationships")
+@Label("message.entities.demo-relationships")
+@Createable
+@Editable
+@Deleteable
+@Access(Access.PUBLIC)
+@FormType(FormType.CASCADE)
+@Categories({"message.categories.common", "message.categories.example"})
+@Permissions("3f3f10")
+@Role(name="view-demo-child", permission="10")
+class DemoRelationships {
+	
+	@Field("demoChild")
+	@Label("message.fields.demo-relationships.demo-child")
+	@Editable
+	@Searchable
+	@ShowInResults
+	@ShowInDetails
+	@ShowInUpdate
+	@SearchConf(policy=Validator.EXACT_MATCH, multiplicity=Multiplicity.MANY, fields={"key"})
+	@ApiName("codeDemoChild")
+	private DemoChild demoChild;
+
 	// Fields and methods
 	...
 }
