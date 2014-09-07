@@ -54,6 +54,7 @@ metadata: {
 					searchConf: { 				// search configuration for the entity
 						policy: 'enum', 			// format of the search for this object (e.g. exact match, range, wildcards)
 						multiplicity: 'enum', 		// multiplicity of the search input (one, many)
+						fields: 'string[]' 			// fields to use for search
 					},
 					unique: 'boolean', 			// whether the value of this field mustn't be duplicated
 					access: {					// (Object) access information for the entity type
@@ -392,3 +393,5 @@ class DemoRelationships {
 	...
 }
 ```
+
+TODO Define generated metadata
