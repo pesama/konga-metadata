@@ -150,7 +150,7 @@ So *0* would mean no permissions, and *3f* all permissions.
 
 #### Roles
 
-The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
+The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permission` string, with the same format as for the global permissions attribute.
 
 ### Data validation
 
