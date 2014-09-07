@@ -24,7 +24,7 @@ metadata: {
 			apiName: 'string', 				// name of the object within the api
 			apiPath: 'string', 				// path of the api operations for this entity
 			categories: 'string[]', 		// placeholders to the names of the form categories
-			access: {						// (Object) access information for the entity type
+			security: {						// (Object) access information for the entity type
 				permissions: 'string', 			// definition of the permissions for the owner, group, and public.
 				roles: [ 						// Array with all roles defined for the entity
 					{
@@ -42,6 +42,7 @@ metadata: {
 					isKey: 'boolean', 			// whether the field is the human-readable key for the entity
 					isLabel: 'boolean', 		// whether the field is the human-readable name for the entity.
 					multiplicity: 'enum', 		// multiplicity of the field within the entity (one, many)
+					access: 'enum', 			//  access restriction to the entity (public, restricted, hidden)
 					searchable: 'boolean', 		// whether entities of this type would be searched by this field
 					editable: 'boolean', 		// whether this field could be modified
 					showInResults: 'boolean', 	// whether the field would be shown in the results pane
@@ -57,7 +58,7 @@ metadata: {
 						fields: 'string[]' 			// fields to use for search
 					},
 					unique: 'boolean', 			// whether the value of this field mustn't be duplicated
-					access: {					// (Object) access information for the entity type
+					security: {					// (Object) access information for the entity type
 						permissions: 'string', 		// definition of the permissions for the owner, group, and public.
 						roles: [ 					// Array with all roles defined for the entity
 							{
@@ -78,18 +79,20 @@ metadata: {
 						]
 					},
 					triggers: [ 				// array with all triggers for the entity changes
-						match: 'enum', 				// type of the trigger (e.g. value, length...)
-						moment: 'enum', 			// when to launch the trigger (immediate, commit)
-						scope: 'enum', 				// the mode of the field (search, update, all)
-						type: 'enum', 				// type of the trigger (e.g. alert, confirm)
-						matchType: 'enum', 			// Type of the match (e.g. exact-match, regexp...)
-						parameters: [ 				// array of parameters for the trigger
-							{
-								source: 'enum', 		// type of the parameter (e.g. label, $scope, value...)
-								type: 'enum', 			// data-type of the parameter
-								value: 'string' 		// value of the parameter
-							}
-						]
+						{
+							match: 'enum', 			// type of the trigger (e.g. value, length...)
+							moment: 'enum', 		// when to launch the trigger (immediate, commit)
+							scope: 'enum', 			// the mode of the field (search, update, all)
+							type: 'enum', 			// type of the trigger (e.g. alert, confirm)
+							matchType: 'enum', 		// Type of the match (e.g. exact-match, regexp...)
+							parameters: [ 				// array of parameters for the trigger
+								{
+									source: 'enum', 	// type of the parameter (e.g. label, $scope, value...)
+									type: 'enum', 		// data-type of the parameter
+									value: 'string' 	// value of the parameter
+								}
+							]
+						}
 					]
 				}
 			]
@@ -233,13 +236,14 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | Annotation       | Level  | Parameters       | Description                                         |
 | ---------------- | ------ | ---------------- | --------------------------------------------------- |
 | *@*Entity        | entity | value            | Define an entity and provide its name               |
+| *@*Extends       | entity | value            | Define the name of the superclass                   |
 | *@*Label         | all    | value            | Define the placeholder for the human-readable name  |
 | *@*Searchable    | all    | _none_           | The entity or field would be used for searches      |
 | *@*Createable    | entity | _none_           | New entities of this type would be created          |
 | *@*Editable      | all    | _none_           | The entity or field would be modified               |
 | *@*Deleteable    | entity | _none_           | The entities of this type would be deleted          |
 | *@*Access        | all    | value            | Define the visibility (public, restricted, hidden)  |
-| *@*FormType      | entity | value            | Define the form type                                |
+| *@*FormType      | entity | scope, type      | Define the form type for the scope given 			 |
 | *@*Categories    | all    | value[]          | Define the categories of the entity or field        |
 | *@*Permissions   | all    | value            | Define the permissions of the entity or field       |
 | *@*Role          | all    | name, permission | Define a role name and its permissions              |
@@ -262,15 +266,19 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*EntityLabel   | field  | _none_           | The field will be the entity human-readable name    |
 | *@*FieldType     | field  | value            | Define the name of the field type to use            |
 | *@*Defaults 	   | field  | value            | Define the default value for the field              |
-| *@*SearchConf    | field  | policy, multiplicity | Configures the search for the field 			 |
+| *@*SearchConf    | field  | policy, multiplicity, [fields] | Configures the search for the field   |
 
 #### Generator
 The annotation framework contains a `KongaGenerator` class that converts the annotated elements in metadata definitions to be sent to the ui.
 
-Example:
+#### Basic usage:
 
 ```java
-KongaMetadata appMetadata = KongaGenerator.readPackage("com.example.project");
+KongaDefinition myApp = new KongaDefinition("my-konga-application", "com.example.project-name.model");
+// Configure the application further here
+...
+
+KongaMetadata appMetadata = KongaGenerator.readPackage(myApp);
 ```
 
 The returning `KongaMetadata` object will contain information about all the application, and it's ready to be sent to any REST request, in _json_ format.
@@ -287,7 +295,7 @@ Below examples offer an overview on the usage of all annotations to define a ful
 @Createable
 @Editable
 @Access(Access.HIDDEN)
-@FormType(FormType.CASCADE)
+@FormType(type=FormType.CASCADE)
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="admin-demo-parent-data", permission="32")
@@ -340,12 +348,13 @@ abstract class DemoParent {
 
 ```java
 @Entity("demo-child")
+@Extends("demo-parent")
 @Label("message.entities.demo-child")
 @Createable
 @Editable
 @Deleteable
 @Access(Access.PUBLIC)
-@FormType(FormType.CASCADE)
+@FormType(type=FormType.CASCADE)
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="view-demo-child", permission="10")
@@ -377,7 +386,7 @@ final class DemoChild extends DemoParent {
 @Editable
 @Deleteable
 @Access(Access.PUBLIC)
-@FormType(FormType.CASCADE)
+@FormType(type=FormType.CASCADE)
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="view-demo-child", permission="10")
