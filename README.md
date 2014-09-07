@@ -133,7 +133,9 @@ The forms and their fields could be configured to be rendered in different ways,
 Apart from the `createable`, `editable` and `deleteable` flags (which define the global actions an entity or field supports) there's an access configuration, for every entity and field. 
 The format of the access contains two objects:
 
-* `permissions`: Defines the permissions the different entity allows to the users related to it. It's a decimal number composed by the concatenation of the three permissions (i.e. owner, group, public). Each permission is a decimal number result of the parsing of a six-digit binary number, where each digit seems:
+#### `permissions` 
+
+Defines the permissions the different entity allows to the users related to it. It's a decimal number composed by the concatenation of the three permissions (i.e. owner, group, public). Each permission is a hexa-decimal number result of the parsing of a six-digit binary number, where each digit seems:
 
 | Digit | Attribute | Description 									    |
 | ----- | --------- | ------------------------------------------------- |
@@ -144,8 +146,11 @@ The format of the access contains two objects:
 | 4     | read-all  | whether the item and all subitems could be read   |
 | 5     | edit-all  | whether the item and all subitems could be edited |
 
+So *0* would mean no permissions, and *3f* all permissions.
 
-* `roles`: The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
+#### `roles`
+
+The roles define custom behaviors for user in posession of such role. Each role definition is an object with a `name` parameter (containing the name of the role) and a `permissions` string, with the same format as for the global permissions attribute.
 
 ### Data validation
 
