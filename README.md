@@ -243,7 +243,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*Editable      | all    | _none_           | The entity or field would be modified               |
 | *@*Deleteable    | entity | _none_           | The entities of this type would be deleted          |
 | *@*Access        | all    | value            | Define the visibility (public, restricted, hidden)  |
-| *@*FormType      | entity | scope, type      | Define the form type for the scope given 			 |
+| *@*FormType | entity | search, results, details, update | Define the form type for the scope given |
 | *@*Categories    | all    | value[]          | Define the categories of the entity or field        |
 | *@*Permissions   | all    | value            | Define the permissions of the entity or field       |
 | *@*Role          | all    | name, permission | Define a role name and its permissions              |
@@ -294,7 +294,7 @@ Below examples offer an overview on the usage of all annotations to define a ful
 @Createable
 @Editable
 @Access(Access.HIDDEN)
-@FormType(type=FormType.CASCADE)
+@FormType()
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="admin-demo-parent-data", permission="32")
@@ -353,7 +353,7 @@ abstract class DemoParent {
 @Editable
 @Deleteable
 @Access(Access.PUBLIC)
-@FormType(type=FormType.CASCADE)
+@FormType()
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="view-demo-child", permission="10")
@@ -383,7 +383,7 @@ final class DemoChild extends DemoParent {
 @Editable
 @Deleteable
 @Access(Access.PUBLIC)
-@FormType(type=FormType.CASCADE)
+@FormType(update=FormType.TABBED)
 @Categories({"message.categories.common", "message.categories.example"})
 @Permissions("3f3f10")
 @Role(name="view-demo-child", permission="10")
