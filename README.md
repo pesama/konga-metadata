@@ -258,8 +258,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*MinLength     | field  | value            | The field's minimum length                          |
 | *@*MaxLength     | field  | value            | The field's maximum length                          |
 | *@*Validator     | field  | type, value      | Define a new validator for the field                |
-| *@*Trigger     | field  | name, match, moment, scope, type, value, matchType | Define a new trigger|
-| *@*TriggerParam  | field  | trigger, source, type, value | Define a new trigger param for a trigger|
+| *@*Trigger     | field  | name, match, moment, scope, type, value, matchType, parameters | Define a new trigger|
 | *@*Unique        | field  | _none_           | Define the field as unique                          |
 | *@*EntityId      | field  | _none_           | The field will be the unique id of the entity       |
 | *@*EntityKey     | field  | _none_           | The field will be the human-readable key            |
@@ -367,9 +366,7 @@ final class DemoChild extends DemoParent {
 	@ShowInResults
 	@ShowInDetails
 	@ShowInUpdate
-	@Trigger(name="disable-entity", match="value", matchType=Validator.EXACT_MATCH, moment=Moment.IMMEDIATE, scope=Scope.UPDATE, type=Trigger.value="false")
-	@TriggerParam(trigger="disable-entity", source=Trigger.SOURCE_MESSAGE, type=Type.STRING, value="message.triggers.demo-child.disable-entity.title")
-	@TriggerParam(trigger="disable-entity", source=Trigger.SOURCE_MESSAGE, type=Type.STRING, value="message.triggers.demo-child.disable-entity.message")
+	@Trigger(name="disable-entity", match="value", matchType=Validator.EXACT_MATCH, moment=Moment.IMMEDIATE, scope=Scope.UPDATE, type=Trigger.value="false", params={"MESSAGE#message.triggers.demo-child.disable-entity.title", "MESSAGE#message.triggers.demo-child.disable-entity.message"})
 	private boolean active;
 	
 	// Fields and methods
