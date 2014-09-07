@@ -146,7 +146,7 @@ Defines the permissions the different entity allows to the users related to it. 
 | 4     | read-all  | whether the item and all subitems could be read   |
 | 5     | edit-all  | whether the item and all subitems could be edited |
 
-So *0* would mean no permissions, and *3f* all permissions.
+So *'0'* would mean no permissions, and *'3f'* all permissions.
 
 #### Roles
 
