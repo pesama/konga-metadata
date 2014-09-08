@@ -250,6 +250,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*ApiName       | all    | value            | Define the name of the entity or field in the api   |
 | *@*ApiPath       | entity | value            | Define the path of the entity in the api            |
 | *@*Field         | field  | value            | Define a field and provide its name    			 |
+| *@*DataType      | field  | value, complexType | Define the data type of the field 			     |
 | *@*Multiplicity  | field  | value            | Define the multiplicity of the field (one, many)    |
 | *@*ShowInResults | field  | _none_           | The field will be shown in the results pane         |
 | *@*ShowInUpdate  | field  | _none_           | The field will be shown in the update pane          |
@@ -266,6 +267,7 @@ With Java is really easy to define entities and fields inline, so the same POJOs
 | *@*FieldType     | field  | value            | Define the name of the field type to use            |
 | *@*Defaults 	   | field  | value            | Define the default value for the field              |
 | *@*SearchConf    | field  | policy, multiplicity, [fields] | Configures the search for the field   |
+| *@*Priority      | field  | value 		   | Define the priority of the field (for sorting)      |
 
 #### Generator
 The annotation framework contains a `KongaGenerator` class that converts the annotated elements in metadata definitions to be sent to the ui.
