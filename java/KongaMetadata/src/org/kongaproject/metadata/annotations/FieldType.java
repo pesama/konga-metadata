@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface FieldType {
 
-	org.kongaproject.metadata.definition.enumerations.FieldType value();
+	org.kongaproject.metadata.definition.enumerations.FieldType search() default org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+	org.kongaproject.metadata.definition.enumerations.FieldType results() default org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+	org.kongaproject.metadata.definition.enumerations.FieldType details() default org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+	org.kongaproject.metadata.definition.enumerations.FieldType update() default org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
 }

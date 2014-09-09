@@ -673,40 +673,39 @@ public class KongaGenerator {
 		return null;
 	}
 
-	private static org.kongaproject.metadata.definition.enumerations.FieldType getFieldType(
+	private static org.kongaproject.metadata.definition.FieldType getFieldType(
 			java.lang.reflect.Field source) {
+		org.kongaproject.metadata.definition.FieldType result = new org.kongaproject.metadata.definition.FieldType();
 		if(source.isAnnotationPresent(annotationFieldType)) {
 			FieldType annotation = source.getAnnotation(annotationFieldType);
 			
-			return annotation.value();
+			result.setDetails(annotation.details());
+			result.setUpdate(annotation.update());
+			result.setResults(annotation.results());
+			result.setSearch(annotation.search());
 		}
 		else {
-			org.kongaproject.metadata.definition.enumerations.FieldType result;
+			org.kongaproject.metadata.definition.enumerations.FieldType type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
 			Class<?> fieldType = source.getType();
 			
 			if(String.class.equals(fieldType)) {
-				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
 			}
 			else if(Integer.class.equals(fieldType)) {
-				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
 			}
 			else if(Boolean.class.equals(fieldType)) {
-				result = org.kongaproject.metadata.definition.enumerations.FieldType.BOOLEAN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldType.BOOLEAN;
 			}
 			else if(Date.class.equals(fieldType)) {
-				result = org.kongaproject.metadata.definition.enumerations.FieldType.DATE;
+				type = org.kongaproject.metadata.definition.enumerations.FieldType.DATE;
 			}
-			// TODO Other values
-			else  {
-//				result.setType(DataType.COMPLEX);
-//				result.setComplexType(complexType);
-				// TODO Throw exception
-				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
-			}
-			
-			return result;
+			result.setDetails(type);
+			result.setUpdate(type);
+			result.setResults(type);
+			result.setSearch(type);
 		}
-		
+		return result;
 	}
 
 	private static ShowConfiguration getShowInDetails(java.lang.reflect.Field source) {

@@ -3,7 +3,7 @@ package org.kongaproject.metadata.definition;
 import java.util.List;
 
 import org.kongaproject.metadata.definition.enumerations.AccessMode;
-import org.kongaproject.metadata.definition.enumerations.FieldType;
+import org.kongaproject.metadata.definition.FieldType;
 import org.kongaproject.metadata.definition.enumerations.Multiplicity;
 
 public class Field {
