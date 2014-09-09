@@ -2,8 +2,7 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.Access;
-import org.kongaproject.metadata.definition.enumerations.DataType;
+import org.kongaproject.metadata.definition.enumerations.AccessMode;
 import org.kongaproject.metadata.definition.enumerations.FieldType;
 import org.kongaproject.metadata.definition.enumerations.Multiplicity;
 
@@ -11,18 +10,18 @@ public class Field {
 	private String name;
 	private String label;
 	private DataType type;
-	private Access access;
+	private AccessMode access;
 	private boolean isId;
 	private boolean isKey;
 	private boolean isLabel;
-	private boolean searchable;
-	private boolean editable;
-	private boolean showInResults;
-	private boolean showInUpdate;
-	private boolean showInDetails;
+	private ShowConfiguration searchable;
+	private ShowConfiguration editable;
+	private ShowConfiguration showInResults;
+	private ShowConfiguration showInUpdate;
+	private ShowConfiguration showInDetails;
 	private Multiplicity multiplicity;
 	private List<String> categories;
-	private String apiName;
+	private List<String> apiName;
 	private FieldType fieldType;
 	private String defaults;
 	private SearchConf searchConf;
@@ -30,6 +29,22 @@ public class Field {
 	private Security security;
 	private Validation validation;
 	private List<Trigger> triggers;
+	private int priority;
+	
+	private String owner;
+	
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	public int getPriority() {
+		return priority;
+	}
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
 	public String getName() {
 		return name;
 	}
@@ -48,58 +63,59 @@ public class Field {
 	public void setType(DataType type) {
 		this.type = type;
 	}
-	public Access getAccess() {
+	public AccessMode getAccess() {
 		return access;
 	}
-	public void setAccess(Access access) {
+	public void setAccess(AccessMode access) {
 		this.access = access;
 	}
-	public boolean isId() {
+	public boolean getIsId() {
 		return isId;
 	}
-	public void setId(boolean isId) {
+	public void setIsId(boolean isId) {
 		this.isId = isId;
 	}
-	public boolean isKey() {
+	public boolean getIsKey() {
 		return isKey;
 	}
-	public void setKey(boolean isKey) {
+	public void setIsKey(boolean isKey) {
 		this.isKey = isKey;
 	}
-	public boolean isLabel() {
+	public boolean getIsLabel() {
 		return isLabel;
 	}
-	public void setLabel(boolean isLabel) {
+	public void setIsLabel(boolean isLabel) {
 		this.isLabel = isLabel;
 	}
-	public boolean isSearchable() {
+	
+	public ShowConfiguration getSearchable() {
 		return searchable;
 	}
-	public void setSearchable(boolean searchable) {
+	public void setSearchable(ShowConfiguration searchable) {
 		this.searchable = searchable;
 	}
-	public boolean isEditable() {
+	public ShowConfiguration getEditable() {
 		return editable;
 	}
-	public void setEditable(boolean editable) {
+	public void setEditable(ShowConfiguration editable) {
 		this.editable = editable;
 	}
-	public boolean isShowInResults() {
+	public ShowConfiguration getShowInResults() {
 		return showInResults;
 	}
-	public void setShowInResults(boolean showInResults) {
+	public void setShowInResults(ShowConfiguration showInResults) {
 		this.showInResults = showInResults;
 	}
-	public boolean isShowInUpdate() {
+	public ShowConfiguration getShowInUpdate() {
 		return showInUpdate;
 	}
-	public void setShowInUpdate(boolean showInUpdate) {
+	public void setShowInUpdate(ShowConfiguration showInUpdate) {
 		this.showInUpdate = showInUpdate;
 	}
-	public boolean isShowInDetails() {
+	public ShowConfiguration getShowInDetails() {
 		return showInDetails;
 	}
-	public void setShowInDetails(boolean showInDetails) {
+	public void setShowInDetails(ShowConfiguration showInDetails) {
 		this.showInDetails = showInDetails;
 	}
 	public Multiplicity getMultiplicity() {
@@ -114,10 +130,10 @@ public class Field {
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
 	}
-	public String getApiName() {
+	public List<String> getApiName() {
 		return apiName;
 	}
-	public void setApiName(String apiName) {
+	public void setApiName(List<String> apiName) {
 		this.apiName = apiName;
 	}
 	public FieldType getFieldType() {

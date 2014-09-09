@@ -2,7 +2,7 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.Access;
+import org.kongaproject.metadata.definition.enumerations.AccessMode;
 import org.kongaproject.metadata.definition.enumerations.FormType;
 import org.kongaproject.metadata.definition.enumerations.Stereotype;
 
@@ -11,7 +11,7 @@ public class Entity {
 	private String name;
 	private String superClass;
 	private String label;
-	private Access access;
+	private AccessMode access;
 	private List<Stereotype> stereotypes;
 	private boolean searchable;
 	private boolean createable;
@@ -44,10 +44,10 @@ public class Entity {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	public Access getAccess() {
+	public AccessMode getAccess() {
 		return access;
 	}
-	public void setAccess(Access access) {
+	public void setAccess(AccessMode access) {
 		this.access = access;
 	}
 	public List<Stereotype> getStereotypes() {

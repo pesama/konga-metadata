@@ -6,8 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
-public @interface Editable {
-
+@Target(ElementType.FIELD)
+public @interface ShowInDetails {
+	
 	boolean value() default true;
+	String[] fields() default "";
 }

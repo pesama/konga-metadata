@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
-public @interface Searchable {
+public @interface ApiName {
 
-	boolean value() default true;
+	String[] value();
 }

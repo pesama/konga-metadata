@@ -3,7 +3,9 @@ package org.kongaproject.metadata.generator;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.kongaproject.metadata.annotations.Access;
 import org.kongaproject.metadata.annotations.ApiName;
@@ -24,6 +26,7 @@ import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.MinLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
 import org.kongaproject.metadata.annotations.Permissions;
+import org.kongaproject.metadata.annotations.Priority;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Role;
 import org.kongaproject.metadata.annotations.SearchConf;
@@ -32,7 +35,7 @@ import org.kongaproject.metadata.annotations.ShowInDetails;
 import org.kongaproject.metadata.annotations.ShowInResults;
 import org.kongaproject.metadata.annotations.ShowInUpdate;
 import org.kongaproject.metadata.annotations.Trigger;
-import org.kongaproject.metadata.annotations.TriggerParam;
+import org.kongaproject.metadata.annotations.Type;
 import org.kongaproject.metadata.annotations.Unique;
 import org.kongaproject.metadata.annotations.Validator;
 import org.kongaproject.metadata.definition.Entity;
@@ -40,8 +43,13 @@ import org.kongaproject.metadata.definition.Field;
 import org.kongaproject.metadata.definition.KongaDefinition;
 import org.kongaproject.metadata.definition.KongaMetadata;
 import org.kongaproject.metadata.definition.Security;
+import org.kongaproject.metadata.definition.ShowConfiguration;
 import org.kongaproject.metadata.definition.Validation;
+import org.kongaproject.metadata.definition.enumerations.AccessMode;
+import org.kongaproject.metadata.definition.enumerations.DataType;
 import org.kongaproject.metadata.definition.enumerations.Stereotype;
+import org.kongaproject.metadata.definition.enumerations.ValidatorType;
+import org.reflections.Reflections;
 
 public class KongaGenerator {
 	
@@ -65,18 +73,19 @@ public class KongaGenerator {
 	private static Class<ShowInResults> annotationShowInResults = ShowInResults.class;
 	private static Class<ShowInUpdate> annotationShowInUpdate = ShowInUpdate.class;
 	private static Class<ShowInDetails> annotationShowInDetails = ShowInDetails.class;
+	private static Class<Type> annotationType = Type.class;
 	private static Class<Required> annotationRequired = Required.class;
 	private static Class<MinLength> annotationMinLength = MinLength.class;
 	private static Class<MaxLength> annotationMaxLength = MaxLength.class;
 	private static Class<Validator> annotationValidator = Validator.class;
 	private static Class<Trigger> annotationTrigger = Trigger.class;
-	private static Class<TriggerParam> annotationTriggerParam = TriggerParam.class;
 	private static Class<Unique> annotationUnique = Unique.class;
 	private static Class<EntityId> annotationEntityId = EntityId.class;
 	private static Class<EntityKey> annotationEntityKey = EntityKey.class;
 	private static Class<EntityLabel> annotationEntityLabel = EntityLabel.class;
 	private static Class<FieldType> annotationFieldType = FieldType.class;
 	private static Class<Defaults> annotationDefaults = Defaults.class;
+	private static Class<Priority> annotationPriority = Priority.class;
 	private static Class<SearchConf> annotationSearchConf = SearchConf.class;
 
 
@@ -89,7 +98,10 @@ public class KongaGenerator {
 		// Setup the name
 		result.setName(input.getAppName());
 		
-		List<Class<?>> sourceList = null; // TODO Retrieve from reflections
+		// Generate the reflections object
+		Reflections reflections = new Reflections(input.getModelPackage());
+		
+		Set<Class<?>> sourceList = reflections.getTypesAnnotatedWith(org.kongaproject.metadata.annotations.Entity.class);
 		
 		// Generate all entities
 		List<Entity> entities = new ArrayList<Entity>();
@@ -123,6 +135,9 @@ public class KongaGenerator {
 		
 		// Setup stereotypes
 		result.setStereotypes(KongaGenerator.getStereotypes(source));
+		
+		// Setup createable			
+		result.setCreateable(KongaGenerator.getCreateable(source));
 		
 		// Setup searchable			
 		result.setSearchable(KongaGenerator.getSearchable(source));
@@ -161,6 +176,7 @@ public class KongaGenerator {
 		for(java.lang.reflect.Field field : source.getDeclaredFields()) {
 			if(field.isAnnotationPresent(annotationField)) {
 				Field fieldMetadata = KongaGenerator.generateField(field);
+				fieldMetadata.setOwner(result.getName());
 				
 				if(fieldMetadata != null) {
 					fields.add(fieldMetadata);
@@ -172,6 +188,15 @@ public class KongaGenerator {
 		return result;
 	}
 	
+	private static boolean getCreateable(Class<?> source) {
+		if(source.isAnnotationPresent(annotationCreateable)) {
+			Createable annotation = source.getAnnotation(annotationCreateable);
+			
+			return annotation.value();
+		}
+		return false;
+	}
+
 	private static Field generateField(java.lang.reflect.Field source) {
 		Field result = new Field();
 		
@@ -183,8 +208,23 @@ public class KongaGenerator {
 		// Setup the label
 		result.setLabel(KongaGenerator.getLabel(source));
 		
+		// Setup data type
+		result.setType(KongaGenerator.getDataType(source));
+		
+		// Setup entityId
+		result.setIsId(KongaGenerator.getEntityId(source));
+		
+		// Setup entityKey
+		result.setIsKey(KongaGenerator.getEntityKey(source));
+		
+		// Setup entityLabel
+		result.setIsLabel(KongaGenerator.getEntityLabel(source));
+		
 		// Setup access
 		result.setAccess(KongaGenerator.getAccess(source));
+		
+		// Setup multiplicity
+		result.setMultiplicity(KongaGenerator.getMultiplicity(source));
 		
 		// Setup searchable
 		result.setSearchable(KongaGenerator.getSearchable(source));
@@ -228,9 +268,93 @@ public class KongaGenerator {
 		// Setup triggers
 		result.setTriggers(KongaGenerator.getTriggers(source));
 		
+		// Setup priority
+		result.setPriority(KongaGenerator.getPriority(source));
+		
 		return result;
 	}
 	
+	private static org.kongaproject.metadata.definition.DataType getDataType(java.lang.reflect.Field source) {
+		org.kongaproject.metadata.definition.DataType result = new org.kongaproject.metadata.definition.DataType();
+		if(source.isAnnotationPresent(annotationType)) {
+			Type annotation = source.getAnnotation(annotationType);
+			
+			result.setType(annotation.value());
+			result.setComplexType(annotation.complexType());
+		}
+		else {
+			Class<?> fieldType = source.getType();
+			
+			if(String.class.equals(fieldType)) {
+				result.setType(DataType.STRING);
+			}
+			else if(Integer.class.equals(fieldType) ||
+					Float.class.equals(fieldType) ||
+					Double.class.equals(fieldType)) {
+				result.setType(DataType.NUMBER);
+			}
+			else if(Boolean.class.equals(fieldType)) {
+				result.setType(DataType.BOOLEAN);
+			}
+			else if(Date.class.equals(fieldType)) {
+				result.setType(DataType.DATE);
+			}
+			// TODO Other values
+			else  {
+//				result.setType(DataType.COMPLEX);
+//				result.setComplexType(complexType);
+				// TODO Throw exception
+			}
+		}
+		return result;
+	}
+
+	private static int getPriority(java.lang.reflect.Field source) {
+		if(source.isAnnotationPresent(annotationPriority)) {
+			Priority annotation = source.getAnnotation(annotationPriority);
+			
+			return annotation.value();
+		}
+		return 1000;
+	}
+
+	private static boolean getEntityId(java.lang.reflect.Field source) {
+		if(source.isAnnotationPresent(annotationEntityId)) {
+			EntityId annotation = source.getAnnotation(annotationEntityId);
+			
+			return annotation.value();
+		}
+		return false;
+	}
+	
+	private static boolean getEntityKey(java.lang.reflect.Field source) {
+		if(source.isAnnotationPresent(annotationEntityKey)) {
+			EntityKey annotation = source.getAnnotation(annotationEntityKey);
+			
+			return annotation.value();
+		}
+		return false;
+	}
+	
+	private static boolean getEntityLabel(java.lang.reflect.Field source) {
+		if(source.isAnnotationPresent(annotationEntityLabel)) {
+			EntityLabel annotation = source.getAnnotation(annotationEntityLabel);
+			
+			return annotation.value();
+		}
+		return false;
+	}
+
+	private static org.kongaproject.metadata.definition.enumerations.Multiplicity getMultiplicity(
+			java.lang.reflect.Field source) {
+		if(source.isAnnotationPresent(annotationMultiplicity)) {
+			Multiplicity annotation = source.getAnnotation(annotationMultiplicity);
+			
+			return annotation.value();
+		}
+		return org.kongaproject.metadata.definition.enumerations.Multiplicity.ONE;
+	}
+
 	private static Security getSecurity(Class<?> source) {
 		Security security = new Security();
 		
@@ -277,7 +401,7 @@ public class KongaGenerator {
 			
 			return Arrays.asList(annotation.value());
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	private static List<String> getCategories(java.lang.reflect.Field source) {
@@ -286,7 +410,7 @@ public class KongaGenerator {
 			
 			return Arrays.asList(annotation.value());
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 
 	private static String getApiPath(Class<?> source) {
@@ -302,16 +426,17 @@ public class KongaGenerator {
 		if(source.isAnnotationPresent(annotationApiName)) {
 			ApiName annotation = source.getAnnotation(annotationApiName);
 			
-			return annotation.value();
+			return annotation.value()[0];
+//			TODO Change this
 		}
 		return null;
 	}
 	
-	private static String getApiName(java.lang.reflect.Field source) {
+	private static List<String> getApiName(java.lang.reflect.Field source) {
 		if(source.isAnnotationPresent(annotationApiName)) {
 			ApiName annotation = source.getAnnotation(annotationApiName);
 			
-			return annotation.value();
+			return Arrays.asList(annotation.value());
 		}
 		return null;
 	}
@@ -334,13 +459,24 @@ public class KongaGenerator {
 		return false;
 	}
 	
-	private static boolean getEditable(java.lang.reflect.Field source) {
+	private static ShowConfiguration getEditable(java.lang.reflect.Field source) {
+		ShowConfiguration result = new ShowConfiguration();
 		if(source.isAnnotationPresent(annotationEditable)) {
 			Editable annotation = source.getAnnotation(annotationEditable);
 			
-			return annotation.value();
+			result.setValue(annotation.value());
+			List<String> fields = Arrays.asList(annotation.fields());
+			if(fields.size() > 1 || !"".equals(fields.get(0))) {
+				result.setFields(fields);
+			}
+			else {
+				result.setFields(new ArrayList<String>());
+			}
 		}
-		return false;
+		else {
+			result.setValue(false);
+		}
+		return result;
 	}
 
 	private static boolean getSearchable(Class<?> source) {
@@ -352,13 +488,24 @@ public class KongaGenerator {
 		return false;
 	}
 	
-	private static boolean getSearchable(java.lang.reflect.Field source) {
+	private static ShowConfiguration getSearchable(java.lang.reflect.Field source) {
+		ShowConfiguration result = new ShowConfiguration();
 		if(source.isAnnotationPresent(annotationSearchable)) {
 			Searchable annotation = source.getAnnotation(annotationSearchable);
 			
-			return annotation.value();
+			result.setValue(annotation.value());
+			List<String> fields = Arrays.asList(annotation.fields());
+			if(fields.size() > 1 || !"".equals(fields.get(0))) {
+				result.setFields(fields);
+			}
+			else {
+				result.setFields(new ArrayList<String>());
+			}
 		}
-		return false;
+		else {
+			result.setValue(false);
+		}
+		return result;
 	}
 
 	private static List<Stereotype> getStereotypes(Class<?> source) {
@@ -375,24 +522,24 @@ public class KongaGenerator {
 		return stereotypes;
 	}
 
-	private static org.kongaproject.metadata.definition.enumerations.Access getAccess(
+	private static org.kongaproject.metadata.definition.enumerations.AccessMode getAccess(
 			Class<?> source) {
 		if(source.isAnnotationPresent(annotationAccess)) {
 			Access annotation = source.getAnnotation(annotationAccess);
 			
 			return annotation.value();
 		}
-		return null;
+		return AccessMode.PUBLIC;
 	}
 	
-	private static org.kongaproject.metadata.definition.enumerations.Access getAccess(
+	private static org.kongaproject.metadata.definition.enumerations.AccessMode getAccess(
 			java.lang.reflect.Field source) {
 		if(source.isAnnotationPresent(annotationAccess)) {
 			Access annotation = source.getAnnotation(annotationAccess);
 			
 			return annotation.value();
 		}
-		return null;
+		return AccessMode.PUBLIC;
 	}
 
 	private static String getLabel(Class<?> source) {
@@ -507,6 +654,13 @@ public class KongaGenerator {
 			// Setup fields
 			configuration.setFields(Arrays.asList(annotation.fields()));
 		}
+		else {
+			configuration.setPolicy(ValidatorType.EXACT_MATCH);
+			
+			configuration.setMultiplicity(org.kongaproject.metadata.definition.enumerations.Multiplicity.ONE);
+			
+			configuration.setFields(new ArrayList<String>());
+		}
 		return configuration;
 	}
 
@@ -526,33 +680,92 @@ public class KongaGenerator {
 			
 			return annotation.value();
 		}
-		return null;
+		else {
+			org.kongaproject.metadata.definition.enumerations.FieldType result;
+			Class<?> fieldType = source.getType();
+			
+			if(String.class.equals(fieldType)) {
+				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+			}
+			else if(Integer.class.equals(fieldType)) {
+				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+			}
+			else if(Boolean.class.equals(fieldType)) {
+				result = org.kongaproject.metadata.definition.enumerations.FieldType.BOOLEAN;
+			}
+			else if(Date.class.equals(fieldType)) {
+				result = org.kongaproject.metadata.definition.enumerations.FieldType.DATE;
+			}
+			// TODO Other values
+			else  {
+//				result.setType(DataType.COMPLEX);
+//				result.setComplexType(complexType);
+				// TODO Throw exception
+				result = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+			}
+			
+			return result;
+		}
+		
 	}
 
-	private static boolean getShowInDetails(java.lang.reflect.Field source) {
+	private static ShowConfiguration getShowInDetails(java.lang.reflect.Field source) {
+		ShowConfiguration result = new ShowConfiguration();
 		if(source.isAnnotationPresent(annotationShowInDetails)) {
 			ShowInDetails annotation = source.getAnnotation(annotationShowInDetails);
 			
-			return annotation.value();
+			result.setValue(annotation.value());
+			List<String> fields = Arrays.asList(annotation.fields());
+			if(fields.size() > 1 || !"".equals(fields.get(0))) {
+				result.setFields(fields);
+			}
+			else {
+				result.setFields(new ArrayList<String>());
+			}
 		}
-		return false;
+		else {
+			result.setValue(false);
+		}
+		return result;
 	}
 	
-	private static boolean getShowInResults(java.lang.reflect.Field source) {
+	private static ShowConfiguration getShowInResults(java.lang.reflect.Field source) {
+		ShowConfiguration result = new ShowConfiguration();
 		if(source.isAnnotationPresent(annotationShowInResults)) {
 			ShowInResults annotation = source.getAnnotation(annotationShowInResults);
 			
-			return annotation.value();
+			result.setValue(annotation.value());
+			List<String> fields = Arrays.asList(annotation.fields());
+			if(fields.size() > 1 || !"".equals(fields.get(0))) {
+				result.setFields(fields);
+			}
+			else {
+				result.setFields(new ArrayList<String>());
+			}
 		}
-		return false;
+		else {
+			result.setValue(false);
+		}
+		return result;
 	}
 	
-	private static boolean getShowInUpdate(java.lang.reflect.Field source) {
+	private static ShowConfiguration getShowInUpdate(java.lang.reflect.Field source) {
+		ShowConfiguration result = new ShowConfiguration();
 		if(source.isAnnotationPresent(annotationShowInUpdate)) {
 			ShowInUpdate annotation = source.getAnnotation(annotationShowInUpdate);
 			
-			return annotation.value();
+			result.setValue(annotation.value());
+			List<String> fields = Arrays.asList(annotation.fields());
+			if(fields.size() > 1 || !"".equals(fields.get(0))) {
+				result.setFields(fields);
+			}
+			else {
+				result.setFields(new ArrayList<String>());
+			}
 		}
-		return false;
+		else {
+			result.setValue(false);
+		}
+		return result;
 	}
 }

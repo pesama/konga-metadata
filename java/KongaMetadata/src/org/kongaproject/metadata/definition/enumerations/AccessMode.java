@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum Access {
+public enum AccessMode {
 	PUBLIC,
 	RESTRICTED,
 	HIDDEN

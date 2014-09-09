@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface ShowInResults {
-	
-	boolean value() default true;
+@Target(ElementType.TYPE)
+public @interface Extends {
+
+	String value();
 }

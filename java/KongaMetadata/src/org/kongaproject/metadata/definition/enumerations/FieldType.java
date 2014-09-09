@@ -6,6 +6,7 @@ public enum FieldType {
 	SELECT,
 	TABLE,
 	PICK_LIST,
-	MULTI_PICK_LIST
-	
+	MULTI_PICK_LIST,
+	BOOLEAN,
+	COMPLEX
 }

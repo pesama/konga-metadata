@@ -4,6 +4,6 @@ public enum DataType {
 	STRING,
 	NUMBER,
 	BOOLEAN,
+	DATE,
 	COMPLEX
-	
 }
