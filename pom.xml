@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kongaproject</groupId>
+	<artifactId>konga-metadata</artifactId>
+	<version>0.0.4-SNAPSHOT</version>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<connection>scm:svn:http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</connection>
+		<developerConnection>scm:svn:http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</developerConnection>
+		<url>http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</url>
+	</scm>
+	
+	<profiles>
+        <profile>
+            <id>cscServer2</id>
+            <activation>
+               <activeByDefault>false</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url> http://195.55.105.194:8081/nexus/content/repositories/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url> http://195.55.105.194:8081/nexus/content/repositories/snapshots/</url>
+                </snapshotRepository>
+             </distributionManagement>
+        </profile>
+        <profile>
+            <id>cscServer</id>
+            <activation>
+               <activeByDefault>false</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url>http://20.34.36.150:8082/nexus/content/repositories/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url>http://20.34.36.150:8082/nexus/content/repositories/snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+	</project>
