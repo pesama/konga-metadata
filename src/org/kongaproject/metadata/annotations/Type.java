@@ -5,13 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kongaproject.metadata.definition.enumerations.DataType;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Type {
 
-	DataType value();
+	DataTypes value();
 	
 	String complexType() default "";
 	

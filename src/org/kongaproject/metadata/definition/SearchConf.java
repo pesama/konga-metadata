@@ -2,23 +2,23 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.Multiplicity;
-import org.kongaproject.metadata.definition.enumerations.ValidatorType;
+import org.kongaproject.metadata.definition.enumerations.Multiplicities;
+import org.kongaproject.metadata.definition.enumerations.ValidatorTypes;
 
 public class SearchConf {
-	private ValidatorType policy;
-	private Multiplicity multiplicity;
+	private ValidatorTypes policy;
+	private Multiplicities multiplicity;
 	private List<String> fields;
-	public ValidatorType getPolicy() {
+	public ValidatorTypes getPolicy() {
 		return policy;
 	}
-	public void setPolicy(ValidatorType policy) {
+	public void setPolicy(ValidatorTypes policy) {
 		this.policy = policy;
 	}
-	public Multiplicity getMultiplicity() {
+	public Multiplicities getMultiplicity() {
 		return multiplicity;
 	}
-	public void setMultiplicity(Multiplicity multiplicity) {
+	public void setMultiplicity(Multiplicities multiplicity) {
 		this.multiplicity = multiplicity;
 	}
 	public List<String> getFields() {

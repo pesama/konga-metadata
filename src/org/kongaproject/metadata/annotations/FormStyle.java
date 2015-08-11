@@ -5,11 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.kongaproject.metadata.definition.enumerations.FormStyles;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface FormStyle {
-	org.kongaproject.metadata.definition.enumerations.FormStyle search() default org.kongaproject.metadata.definition.enumerations.FormStyle.STANDARD;
-	org.kongaproject.metadata.definition.enumerations.FormStyle results() default org.kongaproject.metadata.definition.enumerations.FormStyle.STANDARD;
-	org.kongaproject.metadata.definition.enumerations.FormStyle details() default org.kongaproject.metadata.definition.enumerations.FormStyle.STANDARD;
-	org.kongaproject.metadata.definition.enumerations.FormStyle update() default org.kongaproject.metadata.definition.enumerations.FormStyle.STANDARD;
+	org.kongaproject.metadata.definition.enumerations.FormStyles search() default FormStyles.STANDARD;
+	org.kongaproject.metadata.definition.enumerations.FormStyles results() default FormStyles.STANDARD;
+	org.kongaproject.metadata.definition.enumerations.FormStyles details() default FormStyles.STANDARD;
+	org.kongaproject.metadata.definition.enumerations.FormStyles update() default FormStyles.STANDARD;
 }

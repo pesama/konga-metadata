@@ -1,22 +1,22 @@
 package org.kongaproject.metadata.definition;
 
-import org.kongaproject.metadata.definition.enumerations.DataType;
-import org.kongaproject.metadata.definition.enumerations.TriggerSource;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.TriggerSources;
 
 public class TriggerParam {
-	private TriggerSource source;
-	private DataType type;
+	private TriggerSources source;
+	private DataTypes type;
 	private String value;
-	public TriggerSource getSource() {
+	public TriggerSources getSource() {
 		return source;
 	}
-	public void setSource(TriggerSource source) {
+	public void setSource(TriggerSources source) {
 		this.source = source;
 	}
-	public DataType getType() {
+	public DataTypes getType() {
 		return type;
 	}
-	public void setType(DataType type) {
+	public void setType(DataTypes type) {
 		this.type = type;
 	}
 	public String getValue() {

@@ -1,7 +1,8 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum TriggerMatch {
-	VALUE,
+public enum TriggerSources {
+	LABEL,
 	$SCOPE,
-	LENGTH
+	INLINE,
+	VALUE
 }

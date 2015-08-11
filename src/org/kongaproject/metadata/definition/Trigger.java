@@ -2,19 +2,19 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.FormMode;
-import org.kongaproject.metadata.definition.enumerations.TriggerMatch;
-import org.kongaproject.metadata.definition.enumerations.TriggerMoment;
-import org.kongaproject.metadata.definition.enumerations.TriggerType;
-import org.kongaproject.metadata.definition.enumerations.ValidatorType;
+import org.kongaproject.metadata.definition.enumerations.FormModes;
+import org.kongaproject.metadata.definition.enumerations.TriggerMatches;
+import org.kongaproject.metadata.definition.enumerations.TriggerMoments;
+import org.kongaproject.metadata.definition.enumerations.TriggerTypes;
+import org.kongaproject.metadata.definition.enumerations.ValidatorTypes;
 
 public class Trigger {
 	private String name;
-	private TriggerMoment moment;
-	private TriggerMatch match;
-	private FormMode scope;
-	private TriggerType type;
-	private ValidatorType matchType;
+	private TriggerMoments moment;
+	private TriggerMatches match;
+	private FormModes scope;
+	private TriggerTypes type;
+	private ValidatorTypes matchType;
 	private List<String> parameters;
 	private String value;
 	
@@ -24,34 +24,34 @@ public class Trigger {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public TriggerMoment getMoment() {
+	public TriggerMoments getMoment() {
 		return moment;
 	}
-	public void setMoment(TriggerMoment moment) {
+	public void setMoment(TriggerMoments moment) {
 		this.moment = moment;
 	}
-	public TriggerMatch getMatch() {
+	public TriggerMatches getMatch() {
 		return match;
 	}
-	public void setMatch(TriggerMatch match) {
+	public void setMatch(TriggerMatches match) {
 		this.match = match;
 	}
-	public FormMode getScope() {
+	public FormModes getScope() {
 		return scope;
 	}
-	public void setScope(FormMode scope) {
+	public void setScope(FormModes scope) {
 		this.scope = scope;
 	}
-	public TriggerType getType() {
+	public TriggerTypes getType() {
 		return type;
 	}
-	public void setType(TriggerType type) {
+	public void setType(TriggerTypes type) {
 		this.type = type;
 	}
-	public ValidatorType getMatchType() {
+	public ValidatorTypes getMatchType() {
 		return matchType;
 	}
-	public void setMatchType(ValidatorType matchType) {
+	public void setMatchType(ValidatorTypes matchType) {
 		this.matchType = matchType;
 	}
 	public List<String> getParameters() {

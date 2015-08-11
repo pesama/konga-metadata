@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface FormType {
 
-	org.kongaproject.metadata.definition.enumerations.FormType search() default org.kongaproject.metadata.definition.enumerations.FormType.CASCADE;
-	org.kongaproject.metadata.definition.enumerations.FormType results() default org.kongaproject.metadata.definition.enumerations.FormType.CASCADE;
-	org.kongaproject.metadata.definition.enumerations.FormType details() default org.kongaproject.metadata.definition.enumerations.FormType.CASCADE;
-	org.kongaproject.metadata.definition.enumerations.FormType update() default org.kongaproject.metadata.definition.enumerations.FormType.CASCADE;
+	org.kongaproject.metadata.definition.enumerations.FormTypes search() default org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE;
+	org.kongaproject.metadata.definition.enumerations.FormTypes results() default org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE;
+	org.kongaproject.metadata.definition.enumerations.FormTypes details() default org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE;
+	org.kongaproject.metadata.definition.enumerations.FormTypes update() default org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE;
 	String template() default "";
 }

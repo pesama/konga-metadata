@@ -1,7 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum AccessMode {
-	PUBLIC,
-	RESTRICTED,
-	HIDDEN
+public enum Stereotypes {
+	ABSTRACT,
+	FINAL
 }

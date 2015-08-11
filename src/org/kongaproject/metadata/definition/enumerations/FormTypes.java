@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum FormType {
+public enum FormTypes {
 	CASCADE,
 	CATEGORIZED_CASCADE,
 	TABBED,

@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface Access {
-	org.kongaproject.metadata.definition.enumerations.AccessMode value();
+	org.kongaproject.metadata.definition.enumerations.AccessModes value();
 }

@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition;
 
-import org.kongaproject.metadata.definition.enumerations.FormMode;
+import org.kongaproject.metadata.definition.enumerations.FormModes;
 
 public class KongaAction {
 	
@@ -22,7 +22,7 @@ public class KongaAction {
 	/**
 	 * Where the action is engaged
 	 */
-	private FormMode scope;
+	private FormModes scope;
 	
 	/**
 	 * If overriding a native action, name of the action to set-up
@@ -47,10 +47,10 @@ public class KongaAction {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-	public FormMode getScope() {
+	public FormModes getScope() {
 		return scope;
 	}
-	public void setScope(FormMode scope) {
+	public void setScope(FormModes scope) {
 		this.scope = scope;
 	}
 	public String getOverrides() {

@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum TriggerType {
-	ALERT,
-	CONFIRM
+public enum Multiplicities {
+	ONE,
+	MANY
 }

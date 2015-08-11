@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DataType {
-	private org.kongaproject.metadata.definition.enumerations.DataType type;
+	private org.kongaproject.metadata.definition.enumerations.DataTypes type;
 	
 	private String complexType;
 	
@@ -16,12 +16,12 @@ public class DataType {
 	
 	private String from;
 
-	public org.kongaproject.metadata.definition.enumerations.DataType getType() {
+	public org.kongaproject.metadata.definition.enumerations.DataTypes getType() {
 		return type;
 	}
 
 	public void setType(
-			org.kongaproject.metadata.definition.enumerations.DataType type) {
+			org.kongaproject.metadata.definition.enumerations.DataTypes type) {
 		this.type = type;
 	}
 

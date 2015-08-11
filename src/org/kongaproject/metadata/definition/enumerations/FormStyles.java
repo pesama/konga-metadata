@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum FormStyle {
+public enum FormStyles {
 	STANDARD,
 	HORIZONTAL
 }

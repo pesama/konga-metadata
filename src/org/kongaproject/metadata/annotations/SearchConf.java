@@ -5,15 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kongaproject.metadata.definition.enumerations.ValidatorType;
+import org.kongaproject.metadata.definition.enumerations.ValidatorTypes;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface SearchConf {
 
-	ValidatorType policy();
+	ValidatorTypes policy();
 	
-	org.kongaproject.metadata.definition.enumerations.Multiplicity multiplicity();
+	org.kongaproject.metadata.definition.enumerations.Multiplicities multiplicity();
 	
 	String[] fields() default "";
 }

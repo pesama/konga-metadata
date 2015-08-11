@@ -2,8 +2,8 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.AccessMode;
-import org.kongaproject.metadata.definition.enumerations.Multiplicity;
+import org.kongaproject.metadata.definition.enumerations.AccessModes;
+import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 
 public class KongaField {
 	
@@ -30,7 +30,7 @@ public class KongaField {
 	/**
 	 * Access configuration
 	 */
-	private AccessMode access;
+	private AccessModes access;
 	
 	/**
 	 * Whether the field is the unique DB key
@@ -85,7 +85,7 @@ public class KongaField {
 	/**
 	 * Multiplicity of the field within the entity
 	 */
-	private Multiplicity multiplicity;
+	private Multiplicities multiplicity;
 	
 	/**
 	 * Categories for the field
@@ -195,11 +195,11 @@ public class KongaField {
 		this.type = type;
 	}
 
-	public AccessMode getAccess() {
+	public AccessModes getAccess() {
 		return access;
 	}
 
-	public void setAccess(AccessMode access) {
+	public void setAccess(AccessModes access) {
 		this.access = access;
 	}
 
@@ -275,11 +275,11 @@ public class KongaField {
 		this.showInDetails = showInDetails;
 	}
 
-	public Multiplicity getMultiplicity() {
+	public Multiplicities getMultiplicity() {
 		return multiplicity;
 	}
 
-	public void setMultiplicity(Multiplicity multiplicity) {
+	public void setMultiplicity(Multiplicities multiplicity) {
 		this.multiplicity = multiplicity;
 	}
 

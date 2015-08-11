@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Multiplicity {
 
-	org.kongaproject.metadata.definition.enumerations.Multiplicity value();
+	org.kongaproject.metadata.definition.enumerations.Multiplicities value();
 }

@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum ValidatorType {
+public enum ValidatorTypes {
 	EXACT_MATCH,
 	RANGE,
 	REGEXP,

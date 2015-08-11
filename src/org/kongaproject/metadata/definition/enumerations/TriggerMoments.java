@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum Multiplicity {
-	ONE,
-	MANY
+public enum TriggerMoments {
+	IMMEDIATE,
+	COMMIT
 }

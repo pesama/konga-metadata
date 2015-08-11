@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum DataType {
+public enum DataTypes {
 	STRING,
 	NUMBER,
 	BOOLEAN,

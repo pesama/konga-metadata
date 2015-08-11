@@ -67,10 +67,10 @@ import org.kongaproject.metadata.definition.ScopedConfiguration;
 import org.kongaproject.metadata.definition.Security;
 import org.kongaproject.metadata.definition.ShowConfiguration;
 import org.kongaproject.metadata.definition.Validation;
-import org.kongaproject.metadata.definition.enumerations.AccessMode;
-import org.kongaproject.metadata.definition.enumerations.DataType;
-import org.kongaproject.metadata.definition.enumerations.Stereotype;
-import org.kongaproject.metadata.definition.enumerations.ValidatorType;
+import org.kongaproject.metadata.definition.enumerations.AccessModes;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.Stereotypes;
+import org.kongaproject.metadata.definition.enumerations.ValidatorTypes;
 import org.reflections.Reflections;
 
 public class KongaGenerator {
@@ -221,10 +221,10 @@ public class KongaGenerator {
 			result.setTemplate(annotation.template());
 		}
 		else {
-			result.setSearchType(org.kongaproject.metadata.definition.enumerations.FormType.CASCADE);
-			result.setResultsType(org.kongaproject.metadata.definition.enumerations.FormType.CASCADE);
-			result.setDetailsType(org.kongaproject.metadata.definition.enumerations.FormType.CASCADE);
-			result.setUpdateType(org.kongaproject.metadata.definition.enumerations.FormType.CASCADE);
+			result.setSearchType(org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE);
+			result.setResultsType(org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE);
+			result.setDetailsType(org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE);
+			result.setUpdateType(org.kongaproject.metadata.definition.enumerations.FormTypes.CASCADE);
 			result.setTemplate(null);
 		}
 		
@@ -658,18 +658,18 @@ public class KongaGenerator {
 			Class<?> fieldType = source.getType();
 			
 			if(String.class.equals(fieldType)) {
-				result.setType(DataType.STRING);
+				result.setType(DataTypes.STRING);
 			}
 			else if(Integer.class.equals(fieldType) ||
 					Float.class.equals(fieldType) ||
 					Double.class.equals(fieldType)) {
-				result.setType(DataType.NUMBER);
+				result.setType(DataTypes.NUMBER);
 			}
 			else if(Boolean.class.equals(fieldType)) {
-				result.setType(DataType.BOOLEAN);
+				result.setType(DataTypes.BOOLEAN);
 			}
 			else if(Date.class.equals(fieldType)) {
-				result.setType(DataType.DATE);
+				result.setType(DataTypes.DATE);
 			}
 			// TODO Other values
 			else  {
@@ -727,14 +727,14 @@ public class KongaGenerator {
 		return false;
 	}
 
-	private static org.kongaproject.metadata.definition.enumerations.Multiplicity getMultiplicity(
+	private static org.kongaproject.metadata.definition.enumerations.Multiplicities getMultiplicity(
 			java.lang.reflect.Field source) {
 		if(source.isAnnotationPresent(annotationMultiplicity)) {
 			Multiplicity annotation = source.getAnnotation(annotationMultiplicity);
 			
 			return annotation.value();
 		}
-		return org.kongaproject.metadata.definition.enumerations.Multiplicity.ONE;
+		return org.kongaproject.metadata.definition.enumerations.Multiplicities.ONE;
 	}
 
 	private static Security getSecurity(Class<?> source) {
@@ -896,38 +896,38 @@ public class KongaGenerator {
 		return result;
 	}
 
-	private static List<Stereotype> getStereotypes(Class<?> source) {
-		List<Stereotype> stereotypes = new ArrayList<Stereotype>();
+	private static List<Stereotypes> getStereotypes(Class<?> source) {
+		List<Stereotypes> stereotypes = new ArrayList<Stereotypes>();
 		// Is it abstract?
 		if(Modifier.isAbstract(source.getModifiers())) {
-			stereotypes.add(Stereotype.ABSTRACT);
+			stereotypes.add(Stereotypes.ABSTRACT);
 		}
 		// Is it final?
 		if(Modifier.isFinal(source.getModifiers())) {
-			stereotypes.add(Stereotype.FINAL);
+			stereotypes.add(Stereotypes.FINAL);
 		}
 		
 		return stereotypes;
 	}
 
-	private static org.kongaproject.metadata.definition.enumerations.AccessMode getAccess(
+	private static org.kongaproject.metadata.definition.enumerations.AccessModes getAccess(
 			Class<?> source) {
 		if(source.isAnnotationPresent(annotationAccess)) {
 			Access annotation = source.getAnnotation(annotationAccess);
 			
 			return annotation.value();
 		}
-		return AccessMode.PUBLIC;
+		return AccessModes.PUBLIC;
 	}
 	
-	private static org.kongaproject.metadata.definition.enumerations.AccessMode getAccess(
+	private static org.kongaproject.metadata.definition.enumerations.AccessModes getAccess(
 			java.lang.reflect.Field source) {
 		if(source.isAnnotationPresent(annotationAccess)) {
 			Access annotation = source.getAnnotation(annotationAccess);
 			
 			return annotation.value();
 		}
-		return AccessMode.PUBLIC;
+		return AccessModes.PUBLIC;
 	}
 
 	private static String getLabel(Class<?> source) {
@@ -1064,9 +1064,9 @@ public class KongaGenerator {
 			configuration.setFields(Arrays.asList(annotation.fields()));
 		}
 		else {
-			configuration.setPolicy(ValidatorType.EXACT_MATCH);
+			configuration.setPolicy(ValidatorTypes.EXACT_MATCH);
 			
-			configuration.setMultiplicity(org.kongaproject.metadata.definition.enumerations.Multiplicity.ONE);
+			configuration.setMultiplicity(org.kongaproject.metadata.definition.enumerations.Multiplicities.ONE);
 			
 			configuration.setFields(new ArrayList<String>());
 		}
@@ -1105,20 +1105,20 @@ public class KongaGenerator {
 			result.setConfiguration(resultConfiguration);
 		}
 		else {
-			org.kongaproject.metadata.definition.enumerations.FieldType type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+			org.kongaproject.metadata.definition.enumerations.FieldTypes type = org.kongaproject.metadata.definition.enumerations.FieldTypes.PLAIN;
 			Class<?> fieldType = source.getType();
 			
 			if(String.class.equals(fieldType)) {
-				type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldTypes.PLAIN;
 			}
 			else if(Integer.class.equals(fieldType)) {
-				type = org.kongaproject.metadata.definition.enumerations.FieldType.PLAIN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldTypes.PLAIN;
 			}
 			else if(Boolean.class.equals(fieldType)) {
-				type = org.kongaproject.metadata.definition.enumerations.FieldType.BOOLEAN;
+				type = org.kongaproject.metadata.definition.enumerations.FieldTypes.BOOLEAN;
 			}
 			else if(Date.class.equals(fieldType)) {
-				type = org.kongaproject.metadata.definition.enumerations.FieldType.DATE;
+				type = org.kongaproject.metadata.definition.enumerations.FieldTypes.DATE;
 			}
 			result.setDetails(type);
 			result.setUpdate(type);

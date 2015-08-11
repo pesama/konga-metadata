@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kongaproject.metadata.definition.enumerations.FormMode;
+import org.kongaproject.metadata.definition.enumerations.FormModes;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -13,5 +13,5 @@ public @interface Configuration {
 	
 	Raw[] value();
 	
-	FormMode scope() default FormMode.ALL;
+	FormModes scope() default FormModes.ALL;
 }

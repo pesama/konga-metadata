@@ -1,6 +1,6 @@
 package org.kongaproject.metadata.definition.enumerations;
 
-public enum TriggerMoment {
-	IMMEDIATE,
-	COMMIT
+public enum TriggerTypes {
+	ALERT,
+	CONFIRM
 }

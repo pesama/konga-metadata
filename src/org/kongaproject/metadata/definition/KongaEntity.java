@@ -2,10 +2,10 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
-import org.kongaproject.metadata.definition.enumerations.AccessMode;
-import org.kongaproject.metadata.definition.enumerations.FormStyle;
-import org.kongaproject.metadata.definition.enumerations.FormType;
-import org.kongaproject.metadata.definition.enumerations.Stereotype;
+import org.kongaproject.metadata.definition.enumerations.AccessModes;
+import org.kongaproject.metadata.definition.enumerations.FormStyles;
+import org.kongaproject.metadata.definition.enumerations.FormTypes;
+import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 
 public class KongaEntity {
 	
@@ -34,12 +34,12 @@ public class KongaEntity {
 	/**
 	 * Access configuration 
 	 */
-	private AccessMode access;
+	private AccessModes access;
 	
 	/**
 	 * Stereotypes for the entity
 	 */
-	private List<Stereotype> stereotypes;
+	private List<Stereotypes> stereotypes;
 	
 	/**
 	 * Permission needed for searching the entity
@@ -64,42 +64,42 @@ public class KongaEntity {
 	/**
 	 * Form type for searching the entity
 	 */
-	private FormType searchType;
+	private FormTypes searchType;
 	
 	/**
 	 * Form style for search panels
 	 */
-	private FormStyle searchStyle;
+	private FormStyles searchStyle;
 	
 	/**
 	 * Form type for the results pane
 	 */
-	private FormType resultsType;
+	private FormTypes resultsType;
 	
 	/**
 	 * Form style for results panels
 	 */
-	private FormStyle resultsStyle;
+	private FormStyles resultsStyle;
 	
 	/**
 	 * Form type for the details pane
 	 */
-	private FormType detailsType;
+	private FormTypes detailsType;
 	
 	/**
 	 * Form style for details panels
 	 */
-	private FormStyle detailsStyle;
+	private FormStyles detailsStyle;
 	
 	/**
 	 * Form type for the update pane
 	 */
-	private FormType updateType;
+	private FormTypes updateType;
 	
 	/**
 	 * Form style for update panels
 	 */
-	private FormStyle updateStyle;
+	private FormStyles updateStyle;
 	
 	/**
 	 * Template for the update form
@@ -192,16 +192,16 @@ public class KongaEntity {
 	public void setShortLabel(String shortLabel) {
 		this.shortLabel = shortLabel;
 	}
-	public AccessMode getAccess() {
+	public AccessModes getAccess() {
 		return access;
 	}
-	public void setAccess(AccessMode access) {
+	public void setAccess(AccessModes access) {
 		this.access = access;
 	}
-	public List<Stereotype> getStereotypes() {
+	public List<Stereotypes> getStereotypes() {
 		return stereotypes;
 	}
-	public void setStereotypes(List<Stereotype> stereotypes) {
+	public void setStereotypes(List<Stereotypes> stereotypes) {
 		this.stereotypes = stereotypes;
 	}
 	public String getSearchable() {
@@ -228,28 +228,28 @@ public class KongaEntity {
 	public void setDeleteable(String deleteable) {
 		this.deleteable = deleteable;
 	}
-	public FormType getSearchType() {
+	public FormTypes getSearchType() {
 		return searchType;
 	}
-	public void setSearchType(FormType searchType) {
+	public void setSearchType(FormTypes searchType) {
 		this.searchType = searchType;
 	}
-	public FormType getResultsType() {
+	public FormTypes getResultsType() {
 		return resultsType;
 	}
-	public void setResultsType(FormType resultsType) {
+	public void setResultsType(FormTypes resultsType) {
 		this.resultsType = resultsType;
 	}
-	public FormType getDetailsType() {
+	public FormTypes getDetailsType() {
 		return detailsType;
 	}
-	public void setDetailsType(FormType detailsType) {
+	public void setDetailsType(FormTypes detailsType) {
 		this.detailsType = detailsType;
 	}
-	public FormType getUpdateType() {
+	public FormTypes getUpdateType() {
 		return updateType;
 	}
-	public void setUpdateType(FormType updateType) {
+	public void setUpdateType(FormTypes updateType) {
 		this.updateType = updateType;
 	}
 	public String getTemplate() {
@@ -306,28 +306,28 @@ public class KongaEntity {
 	public void setFieldSets(List<FieldSet> fieldSets) {
 		this.fieldSets = fieldSets;
 	}
-	public FormStyle getSearchStyle() {
+	public FormStyles getSearchStyle() {
 		return searchStyle;
 	}
-	public void setSearchStyle(FormStyle searchStyle) {
+	public void setSearchStyle(FormStyles searchStyle) {
 		this.searchStyle = searchStyle;
 	}
-	public FormStyle getResultsStyle() {
+	public FormStyles getResultsStyle() {
 		return resultsStyle;
 	}
-	public void setResultsStyle(FormStyle resultsStyle) {
+	public void setResultsStyle(FormStyles resultsStyle) {
 		this.resultsStyle = resultsStyle;
 	}
-	public FormStyle getDetailsStyle() {
+	public FormStyles getDetailsStyle() {
 		return detailsStyle;
 	}
-	public void setDetailsStyle(FormStyle detailsStyle) {
+	public void setDetailsStyle(FormStyles detailsStyle) {
 		this.detailsStyle = detailsStyle;
 	}
-	public FormStyle getUpdateStyle() {
+	public FormStyles getUpdateStyle() {
 		return updateStyle;
 	}
-	public void setUpdateStyle(FormStyle updateStyle) {
+	public void setUpdateStyle(FormStyles updateStyle) {
 		this.updateStyle = updateStyle;
 	}
 	public List<ConfigurationParam> getConfiguration() {
