@@ -33,6 +33,7 @@ import org.kongaproject.metadata.annotations.FieldSets;
 import org.kongaproject.metadata.annotations.FieldType;
 import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.FormType;
+import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.MinLength;
@@ -69,6 +70,7 @@ import org.kongaproject.metadata.definition.ShowConfiguration;
 import org.kongaproject.metadata.definition.Validation;
 import org.kongaproject.metadata.definition.enumerations.AccessModes;
 import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.FieldTypes;
 import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 import org.kongaproject.metadata.definition.enumerations.ValidatorTypes;
 import org.reflections.Reflections;
@@ -121,6 +123,7 @@ public class KongaGenerator {
 	private static Class<OverrideDefaults> annotationOverrideDefaults = OverrideDefaults.class;
 	private static Class<Sortable> annotationSortable = Sortable.class;
 	private static Class<Favoriteable> annotationFavoriteable = Favoriteable.class;
+	private static Class<Hint> annotationHint = Hint.class;
 	
 	// Store registered metadata
 	private static List<KongaMetadata> registeredApplications = new ArrayList<KongaMetadata>();
@@ -284,7 +287,7 @@ public class KongaGenerator {
 			Favoriteable annotation = source.getAnnotation(annotationFavoriteable);
 			return annotation.value();
 		}
-		return true;
+		return false;
 	}
 
 	private static List<ConfigurationParam> getConfiguration(
@@ -467,6 +470,9 @@ public class KongaGenerator {
 		// Setup the short label
 		result.setShortLabel(KongaGenerator.getShortLabel(source));
 		
+		// Setup the hint
+		result.setHint(KongaGenerator.getHint(source));
+		
 		// Setup data type
 		result.setType(KongaGenerator.getDataType(source));
 		
@@ -551,6 +557,15 @@ public class KongaGenerator {
 		return result;
 	}
 	
+	private static String getHint(Field source) {
+		if(source.isAnnotationPresent(annotationHint)) {
+			Hint annotation = source.getAnnotation(annotationHint);
+			
+			return annotation.value();
+		}
+		return null;
+	}
+
 	private static Boolean getSortable(Field source) {
 		if(source.isAnnotationPresent(annotationSortable)) {
 			Sortable annotation = source.getAnnotation(annotationSortable);
@@ -1088,10 +1103,26 @@ public class KongaGenerator {
 		if(source.isAnnotationPresent(annotationFieldType)) {
 			FieldType annotation = source.getAnnotation(annotationFieldType);
 			
-			result.setDetails(annotation.details());
-			result.setUpdate(annotation.update());
-			result.setResults(annotation.results());
-			result.setSearch(annotation.search());
+			result.setDetails(annotation.value());
+			result.setUpdate(annotation.value());
+			result.setResults(annotation.value());
+			result.setSearch(annotation.value());
+			
+			if(annotation.details() != FieldTypes.UNDEFINED) {
+				result.setDetails(annotation.details());
+			}
+			
+			if(annotation.update() != FieldTypes.UNDEFINED) {
+				result.setUpdate(annotation.update());
+			}
+			
+			if(annotation.results() != FieldTypes.UNDEFINED) {
+				result.setResults(annotation.results());
+			}
+			
+			if(annotation.search() != FieldTypes.UNDEFINED) {
+				result.setSearch(annotation.search());
+			}
 			
 			Configuration[] configuration = annotation.configuration();
 			List<ScopedConfiguration> resultConfiguration = new ArrayList<ScopedConfiguration>();

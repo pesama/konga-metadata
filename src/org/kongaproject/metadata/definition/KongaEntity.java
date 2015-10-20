@@ -2,38 +2,125 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
+import org.kongaproject.metadata.annotations.ApiPath;
+import org.kongaproject.metadata.annotations.Categories;
+import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Defaults;
+import org.kongaproject.metadata.annotations.Deleteable;
+import org.kongaproject.metadata.annotations.Editable;
+import org.kongaproject.metadata.annotations.Entity;
+import org.kongaproject.metadata.annotations.EntityId;
+import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.EntityLabel;
+import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.FieldType;
+import org.kongaproject.metadata.annotations.FormStyle;
+import org.kongaproject.metadata.annotations.FormType;
+import org.kongaproject.metadata.annotations.Hint;
+import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.MaxLength;
+import org.kongaproject.metadata.annotations.Multiplicity;
+import org.kongaproject.metadata.annotations.Raw;
+import org.kongaproject.metadata.annotations.Required;
+import org.kongaproject.metadata.annotations.Searchable;
+import org.kongaproject.metadata.annotations.ShowInResults;
+import org.kongaproject.metadata.annotations.ShowInUpdate;
+import org.kongaproject.metadata.annotations.Type;
 import org.kongaproject.metadata.definition.enumerations.AccessModes;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.FieldTypes;
 import org.kongaproject.metadata.definition.enumerations.FormStyles;
 import org.kongaproject.metadata.definition.enumerations.FormTypes;
+import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 
+@Entity("konga-entity")
+@Label("Konga Entity")
+@ApiPath("entities")
+@Searchable
+@Createable
+@Deleteable
+@FormType(update=FormTypes.TABBED)
+@FormStyle(update=FormStyles.HORIZONTAL)
 public class KongaEntity {
 	
 	private Class<?> classFor;
 	
+	@Field
+	@EntityId
+	@Searchable("SUPER_ADMIN")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	private Integer id;
+	
 	/**
 	 * Name of the entity
 	 */
+	@Field
+	@Label("Name")
+	@Type(DataTypes.STRING)
+	@EntityKey
+	@Searchable
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Required
+	@MaxLength(40)
+	@Categories("Definition")
 	private String name;
 	
 	/**
 	 * Superclass of the entity
 	 */
+	@Field
+	@Label("Parent entity")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-entity")
+	@FieldType(FieldTypes.SELECT)
+	@EntityLabel
+	@Searchable
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Categories("Relationships")
 	private String superClass;
 	
 	/**
 	 * Label for the entity (placeholder name)
 	 */
+	@Field
+	@Label("Label")
+	@EntityLabel
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Required
+	@Categories("Definition")
 	private String label;
 	
 	/**
 	 * Short Label for the entity (placeholder name)
 	 */
+	@Field
+	@Label("Short label")
+	@ShowInUpdate
+	@Editable
+	@Categories("Definition")
 	private String shortLabel;
 	
 	/**
 	 * Access configuration 
 	 */
+	@Field
+	@Label("Visibility")
+	@Searchable
+	@ShowInUpdate
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="public", value="Visible"),
+		@Raw(key="hidden", value="Hidden (System entity)"),
+	})
+	@FieldType(FieldTypes.COMBOBOX)
+	@Categories("Visibility")
 	private AccessModes access;
 	
 	/**
@@ -44,61 +131,191 @@ public class KongaEntity {
 	/**
 	 * Permission needed for searching the entity
 	 */
+	@Field
+	@Label("Search permissions")
+	@Hint("Permission for search. If left blank, anybody could search this entity")
+	@ShowInUpdate
+	@Editable
+	@Defaults("")
+	@Categories("Visibility")
 	private String searchable;
 	
 	/**
 	 * Permission needed for creating entities
 	 */
+	@Field
+	@Label("Create permissions")
+	@Hint("Permission for creating. If left blank, anybody could create new items of this type")
+	@ShowInUpdate
+	@Editable
+	@Defaults("")
+	@Categories("Visibility")
 	private String createable;
 	
 	/**
 	 * Permission needed for updating the entity
 	 */
+	@Field
+	@Label("Update permissions")
+	@Hint("Permission for updating. If left blank, anybody could update this type of entities")
+	@ShowInUpdate
+	@Editable
+	@Defaults("")
+	@Categories("Visibility")
 	private String editable;
 	
 	/**
 	 * Permission needed for deleting 
 	 */
+	@Field
+	@Label("Delete permissions")
+	@Hint("Permission for deleting. If left blank, anybody could delete entities")
+	@ShowInUpdate
+	@Editable
+	@Defaults("")
+	@Categories("Visibility")
 	private String deleteable;
 	
 	/**
 	 * Form type for searching the entity
 	 */
+	@Field
+	@Label("Search form type")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="CASCADE", value="Cascade form"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
+		@Raw(key="TABBED", value="Tabbed form (via categories)"),
+		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
+		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
+		@Raw(key="CUSTOM", value="Completely custom form")
+	})
+	@Defaults("CASCADE")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormTypes searchType;
 	
 	/**
 	 * Form style for search panels
 	 */
+	@Field
+	@Label("Search form style")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="STANDARD", value="Label and input in block"),
+		@Raw(key="HORIZONTAL", value="Label and input inline")
+	})
+	@Defaults("STANDARD")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles searchStyle;
 	
 	/**
 	 * Form type for the results pane
 	 */
+	@Field
+	@Label("Results form type")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="CASCADE", value="Cascade form"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
+		@Raw(key="TABBED", value="Tabbed form (via categories)"),
+		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
+		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
+		@Raw(key="CUSTOM", value="Completely custom form")
+	})
+	@Defaults("CASCADE")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormTypes resultsType;
 	
 	/**
 	 * Form style for results panels
 	 */
+	@Field
+	@Label("Results form style")
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="STANDARD", value="Label and input in block"),
+		@Raw(key="HORIZONTAL", value="Label and input inline")
+	})
+	@Defaults("STANDARD")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles resultsStyle;
 	
 	/**
 	 * Form type for the details pane
 	 */
+	@Field
+	@Label("Details form type")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="CASCADE", value="Cascade form"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
+		@Raw(key="TABBED", value="Tabbed form (via categories)"),
+		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
+		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
+		@Raw(key="CUSTOM", value="Completely custom form")
+	})
+	@Defaults("CASCADE")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormTypes detailsType;
 	
 	/**
 	 * Form style for details panels
 	 */
+	@Field
+	@Label("Details form style")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="STANDARD", value="Label and input in block"),
+		@Raw(key="HORIZONTAL", value="Label and input inline")
+	})
+	@Defaults("STANDARD")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles detailsStyle;
 	
 	/**
 	 * Form type for the update pane
 	 */
+	@Field
+	@Label("Update form type")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="CASCADE", value="Cascade form"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
+		@Raw(key="TABBED", value="Tabbed form (via categories)"),
+		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
+		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
+		@Raw(key="CUSTOM", value="Completely custom form")
+	})
+	@Defaults("CASCADE")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormTypes updateType;
 	
 	/**
 	 * Form style for update panels
 	 */
+	@Field
+	@Label("Update form style")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="STANDARD", value="Label and input in block"),
+		@Raw(key="HORIZONTAL", value="Label and input inline")
+	})
+	@Defaults("STANDARD")
+	@Categories("Appearance")
+	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles updateStyle;
 	
 	/**
@@ -115,11 +332,25 @@ public class KongaEntity {
 	/**
 	 * Overrides the standard api path for requests
 	 */
+	@Field
+	@Label("API Path")
+	@Searchable("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Categories("Configuration")
 	private String apiPath;
 	
 	/**
 	 * Set of categories of the entity
 	 */
+	@Field
+	@Label("API Path")
+	@Searchable
+	@ShowInUpdate
+	@Editable
+	@Type(DataTypes.STRING)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Definition")
 	private List<String> categories;
 	
 	/**
@@ -130,26 +361,69 @@ public class KongaEntity {
 	/**
 	 * Entity fields
 	 */
+	@Field
+	@Label("Fields")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="konga-field")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Fields")
 	private List<KongaField> fields;
 	
 	/**
 	 * List of field sets for the entity
 	 */
+	@Field
+	@Label("Field sets")
+	@Hint("Define here your field groupings, if you are going to do any customization to them")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-fieldset")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Fields")
 	private List<FieldSet> fieldSets;
 	
 	/**
 	 * Entity actions
 	 */
+	@Field
+	@Label("Actions")
+	@Hint("Define here the custom actions you will implement over this entity")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-action")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Customization")
 	private List<KongaAction> actions;
 	
 	/**
 	 * Override defaults
 	 */
+	@Field
+	@Label("Defaults overriden")
+	@Hint("Add here the actions you will develop for overriding standard content")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-action")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Customization")
 	private List<KongaAction> overrideDefaults;
 	
 	/**
 	 * Entity configuration
 	 */
+	@Field
+	@Label("Configuration")
+	@Hint("Configure your entity here")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-configuration")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
 	private List<ConfigurationParam> configuration;
 	
 	/**

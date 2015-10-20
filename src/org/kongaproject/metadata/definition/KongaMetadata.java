@@ -7,11 +7,65 @@ import java.util.List;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kongaproject.metadata.annotations.ApiPath;
+import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Deleteable;
+import org.kongaproject.metadata.annotations.Editable;
+import org.kongaproject.metadata.annotations.Entity;
+import org.kongaproject.metadata.annotations.EntityId;
+import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.FieldType;
+import org.kongaproject.metadata.annotations.FormStyle;
+import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.MaxLength;
+import org.kongaproject.metadata.annotations.Multiplicity;
+import org.kongaproject.metadata.annotations.Required;
+import org.kongaproject.metadata.annotations.Searchable;
+import org.kongaproject.metadata.annotations.ShowInResults;
+import org.kongaproject.metadata.annotations.ShowInUpdate;
+import org.kongaproject.metadata.annotations.Type;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.FieldTypes;
+import org.kongaproject.metadata.definition.enumerations.FormStyles;
+import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 
+@Entity("konga-application")
+@Label("Konga App")
+@ApiPath("apps")
+@Searchable
+@Createable
+@Deleteable
+@FormStyle(update=FormStyles.HORIZONTAL)
 public class KongaMetadata {
 	
+	@Field
+	@EntityId
+	@Searchable("SUPER_ADMIN")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	private Integer id;
+	
+	@Field
+	@Label("Name")
+	@Type(DataTypes.STRING)
+	@EntityKey
+	@Searchable
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Required
+	@MaxLength(40)
 	private String name;
 
+	@Field
+	@Label("Entities")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="konga-entity")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
 	private List<KongaEntity> entities;
 	
 	private List<ConfigurationParam> configuration;

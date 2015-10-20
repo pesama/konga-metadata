@@ -1,6 +1,7 @@
 package org.kongaproject.metadata.definition.enumerations;
 
 public enum FieldTypes {
+	UNDEFINED,
 	PLAIN,
 	PLAIN_FILTERED,
 	DATE,

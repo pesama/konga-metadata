@@ -2,29 +2,121 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
+import org.kongaproject.metadata.annotations.ApiPath;
+import org.kongaproject.metadata.annotations.Categories;
+import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Defaults;
+import org.kongaproject.metadata.annotations.Deleteable;
+import org.kongaproject.metadata.annotations.Editable;
+import org.kongaproject.metadata.annotations.Entity;
+import org.kongaproject.metadata.annotations.EntityId;
+import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.EntityLabel;
+import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.FormStyle;
+import org.kongaproject.metadata.annotations.FormType;
+import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.MaxLength;
+import org.kongaproject.metadata.annotations.Raw;
+import org.kongaproject.metadata.annotations.Required;
+import org.kongaproject.metadata.annotations.Searchable;
+import org.kongaproject.metadata.annotations.ShowInResults;
+import org.kongaproject.metadata.annotations.ShowInUpdate;
+import org.kongaproject.metadata.annotations.Type;
+import org.kongaproject.metadata.definition.FieldType;
 import org.kongaproject.metadata.definition.enumerations.AccessModes;
+import org.kongaproject.metadata.definition.enumerations.DataTypes;
+import org.kongaproject.metadata.definition.enumerations.FieldTypes;
+import org.kongaproject.metadata.definition.enumerations.FormStyles;
+import org.kongaproject.metadata.definition.enumerations.FormTypes;
 import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 
+@Entity("konga-field")
+@Label("Field")
+@ApiPath("fields")
+@Searchable
+@Createable
+@Deleteable
+@FormType(update=FormTypes.TABBED)
+@FormStyle(update=FormStyles.HORIZONTAL)
 public class KongaField {
+	
+	@Field
+	@EntityId
+	@Searchable("SUPER_ADMIN")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	private Integer id;
 	
 	/**
 	 * The name of the field
 	 */
+	@Field
+	@Label("Name")
+	@Type(DataTypes.STRING)
+	@EntityKey
+	@Searchable
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Required
+	@MaxLength(40)
+	@Categories("Definition")
 	private String name;
 	
 	/**
 	 * Label of the field (placeholder)
 	 */
+	@Field
+	@Label("Label")
+	@EntityLabel
+	@ShowInResults
+	@ShowInUpdate
+	@Editable
+	@Required
+	@Categories("Definition")
 	private String label;
 	
 	/**
 	 * Short Label of the field (placeholder)
 	 */
+	@Field
+	@Label("Short label")
+	@ShowInUpdate
+	@Editable
+	@Categories("Definition")
 	private String shortLabel;
+	
+	/**
+	 * Hint to the user
+	 */
+	@Field
+	@Label("Hint")
+	@ShowInUpdate
+	@Editable
+	@Categories("Definition")
+	private String hint;
 	
 	/**
 	 * Data type of the field
 	 */
+	@Field
+	@Label("Data Type")
+	@ShowInUpdate
+	@Editable
+	@Categories("Definition")
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="STRING", value="String"),
+		@Raw(key="NUMBER", value="Number"),
+		@Raw(key="BOOLEAN", value="Boolean"),
+		@Raw(key="DATE", value="Date"),
+		@Raw(key="COMPLEX", value="Complex (Reference to another object)"),
+		@Raw(key="FILE", value="File")
+	})
+	@Required
+	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
+	@Defaults("STRING")
 	private DataType type;
 	
 	/**
@@ -35,16 +127,34 @@ public class KongaField {
 	/**
 	 * Whether the field is the unique DB key
 	 */
+	@Field
+	@Label("Entity ID")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Categories("Identification")
 	private Boolean isId;
 	
 	/**
 	 * Whether the field is the human-readable key
 	 */
+	@Field
+	@Label("Entity key")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Categories("Identification")
 	private Boolean isKey;
 	
 	/**
 	 * Whether the field is the human-readable name of the entity
 	 */
+	@Field
+	@Label("Entity label")
+	@ShowInResults("SUPER_ADMIN")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Categories("Identification")
 	private Boolean isLabel;
 	
 	/**
@@ -185,6 +295,14 @@ public class KongaField {
 
 	public void setShortLabel(String shortLabel) {
 		this.shortLabel = shortLabel;
+	}
+
+	public String getHint() {
+		return hint;
+	}
+
+	public void setHint(String hint) {
+		this.hint = hint;
 	}
 
 	public DataType getType() {
