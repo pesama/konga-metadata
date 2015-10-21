@@ -7,6 +7,7 @@ import java.util.List;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kongaproject.metadata.annotations.Action;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Createable;
 import org.kongaproject.metadata.annotations.Deleteable;
@@ -20,6 +21,7 @@ import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
+import org.kongaproject.metadata.annotations.OverrideDefaults;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Searchable;
 import org.kongaproject.metadata.annotations.ShowInResults;
@@ -31,7 +33,7 @@ import org.kongaproject.metadata.definition.enumerations.FormStyles;
 import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 
 @Entity("konga-application")
-@Label("Konga App")
+@Label("Metadata definition")
 @ApiPath("apps")
 @Searchable
 @Createable
@@ -61,11 +63,14 @@ public class KongaMetadata {
 
 	@Field
 	@Label("Entities")
-	@ShowInUpdate
+	@ShowInUpdate(fields={"id", "name", "access"})
 	@Editable
 	@Type(value=DataTypes.COMPLEX, complexType="konga-entity")
-	@FieldType(FieldTypes.PICK_LIST)
+	@FieldType(value=FieldTypes.PICK_LIST)
 	@Multiplicity(Multiplicities.MANY)
+	@OverrideDefaults(
+		@Action(overrides="add", name="add-entity-to-metadata")
+	)
 	private List<KongaEntity> entities;
 	
 	private List<ConfigurationParam> configuration;

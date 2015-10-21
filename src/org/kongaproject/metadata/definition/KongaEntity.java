@@ -35,7 +35,7 @@ import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 
 @Entity("konga-entity")
-@Label("Konga Entity")
+@Label("Entity definition")
 @ApiPath("entities")
 @Searchable
 @Createable
@@ -363,7 +363,7 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Fields")
-	@ShowInUpdate
+	@ShowInUpdate(fields={"id", "name", "type"})
 	@Editable
 	@Type(value=DataTypes.COMPLEX, complexType="konga-field")
 	@FieldType(FieldTypes.PICK_LIST)
