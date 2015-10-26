@@ -8,6 +8,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kongaproject.metadata.annotations.Action;
+import org.kongaproject.metadata.annotations.Actions;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Createable;
 import org.kongaproject.metadata.annotations.Deleteable;
@@ -18,6 +19,7 @@ import org.kongaproject.metadata.annotations.EntityKey;
 import org.kongaproject.metadata.annotations.Field;
 import org.kongaproject.metadata.annotations.FieldType;
 import org.kongaproject.metadata.annotations.FormStyle;
+import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
@@ -29,11 +31,12 @@ import org.kongaproject.metadata.annotations.ShowInUpdate;
 import org.kongaproject.metadata.annotations.Type;
 import org.kongaproject.metadata.definition.enumerations.DataTypes;
 import org.kongaproject.metadata.definition.enumerations.FieldTypes;
+import org.kongaproject.metadata.definition.enumerations.FormModes;
 import org.kongaproject.metadata.definition.enumerations.FormStyles;
 import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 
-@Entity("konga-application")
-@Label("Metadata definition")
+@Entity("konga-metadata")
+@Label("Metadata")
 @ApiPath("apps")
 @Searchable
 @Createable
@@ -71,8 +74,20 @@ public class KongaMetadata {
 	@OverrideDefaults(
 		@Action(overrides="add", name="add-entity-to-metadata")
 	)
+	@Actions({
+		@Action(icon="fa fa-edit", name="edit-entity", label="Edit", scope=FormModes.UPDATE),
+		@Action(icon="fa fa-remove", name="remove-entity", label="Remove", scope=FormModes.UPDATE)
+	})
 	private List<KongaEntity> entities;
 	
+	@Field
+	@Label("Configuration")
+	@Hint("Configure your application here")
+	@ShowInUpdate("SUPER_ADMIN")
+	@Editable("SUPER_ADMIN")
+	@Type(value=DataTypes.COMPLEX, complexType="konga-configuration")
+	@FieldType(FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
 	private List<ConfigurationParam> configuration;
 
 	public String getName() {

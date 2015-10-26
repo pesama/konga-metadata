@@ -1,8 +1,36 @@
 package org.kongaproject.metadata.definition;
 
+import org.kongaproject.metadata.annotations.Access;
+import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Deleteable;
+import org.kongaproject.metadata.annotations.Editable;
+import org.kongaproject.metadata.annotations.Entity;
+import org.kongaproject.metadata.annotations.EntityId;
+import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.Hint;
+import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.Searchable;
+import org.kongaproject.metadata.definition.enumerations.AccessModes;
 
+@Entity("configuration-parameter")
+@Label("Configuration parameter")
+@Access(AccessModes.HIDDEN)
+@Createable
+@Editable
+@Searchable
+@Deleteable
 public class ConfigurationParam {
 
+	@Field
+	@Label("ID")
+	@EntityId
+	private Integer id;
+		
+	@Field
+	@Label("Key")
+	@Hint("Enter the key for your configuration parameter")
+	@EntityKey
 	private String key;
 	
 	private Object value;

@@ -2,6 +2,7 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
+import org.kongaproject.metadata.annotations.Action;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Categories;
 import org.kongaproject.metadata.annotations.Createable;
@@ -17,6 +18,7 @@ import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.FormType;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
+import org.kongaproject.metadata.annotations.OverrideDefaults;
 import org.kongaproject.metadata.annotations.Raw;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Searchable;
@@ -36,9 +38,13 @@ import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 @ApiPath("fields")
 @Searchable
 @Createable
+@Editable
 @Deleteable
 @FormType(update=FormTypes.TABBED)
 @FormStyle(update=FormStyles.HORIZONTAL)
+@OverrideDefaults(
+	@Action(overrides="save", name="save-field-to-entity")
+)
 public class KongaField {
 	
 	@Field

@@ -2,6 +2,8 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
+import org.kongaproject.metadata.annotations.Action;
+import org.kongaproject.metadata.annotations.Actions;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Categories;
 import org.kongaproject.metadata.annotations.Createable;
@@ -20,6 +22,7 @@ import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
+import org.kongaproject.metadata.annotations.OverrideDefaults;
 import org.kongaproject.metadata.annotations.Raw;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Searchable;
@@ -29,19 +32,24 @@ import org.kongaproject.metadata.annotations.Type;
 import org.kongaproject.metadata.definition.enumerations.AccessModes;
 import org.kongaproject.metadata.definition.enumerations.DataTypes;
 import org.kongaproject.metadata.definition.enumerations.FieldTypes;
+import org.kongaproject.metadata.definition.enumerations.FormModes;
 import org.kongaproject.metadata.definition.enumerations.FormStyles;
 import org.kongaproject.metadata.definition.enumerations.FormTypes;
 import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 
 @Entity("konga-entity")
-@Label("Entity definition")
+@Label("Entity")
 @ApiPath("entities")
 @Searchable
 @Createable
+@Editable
 @Deleteable
 @FormType(update=FormTypes.TABBED)
 @FormStyle(update=FormStyles.HORIZONTAL)
+@OverrideDefaults(
+	@Action(overrides="save", name="save-entity-to-metadata")
+)
 public class KongaEntity {
 	
 	private Class<?> classFor;
@@ -115,10 +123,12 @@ public class KongaEntity {
 	@Label("Visibility")
 	@Searchable
 	@ShowInUpdate
+	@Editable
 	@Type(value=DataTypes.STRING, list={
 		@Raw(key="public", value="Visible"),
 		@Raw(key="hidden", value="Hidden (System entity)"),
 	})
+	@Defaults("public")
 	@FieldType(FieldTypes.COMBOBOX)
 	@Categories("Visibility")
 	private AccessModes access;
@@ -180,16 +190,16 @@ public class KongaEntity {
 	 * Form type for searching the entity
 	 */
 	@Field
-	@Label("Search form type")
+	@Label("Search form")
 	@ShowInUpdate
 	@Editable
 	@Type(value=DataTypes.STRING, list={
-		@Raw(key="CASCADE", value="Cascade form"),
-		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
-		@Raw(key="TABBED", value="Tabbed form (via categories)"),
-		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
-		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
-		@Raw(key="CUSTOM", value="Completely custom form")
+		@Raw(key="CASCADE", value="Cascade"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Categorized Cascade"),
+		@Raw(key="TABBED", value="Tabbed"),
+		@Raw(key="STEPPED", value="Stepped"),
+		@Raw(key="CUSTOM_TABBED", value="Fieldset tabbed (custom views)"),
+		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
 	@Categories("Appearance")
@@ -201,13 +211,11 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Search form style")
-	@ShowInUpdate
-	@Editable
 	@Type(value=DataTypes.STRING, list={
 		@Raw(key="STANDARD", value="Label and input in block"),
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
-	@Defaults("STANDARD")
+	@Defaults("HORIZONTAL")
 	@Categories("Appearance")
 	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles searchStyle;
@@ -220,12 +228,12 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Type(value=DataTypes.STRING, list={
-		@Raw(key="CASCADE", value="Cascade form"),
-		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
-		@Raw(key="TABBED", value="Tabbed form (via categories)"),
-		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
-		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
-		@Raw(key="CUSTOM", value="Completely custom form")
+		@Raw(key="CASCADE", value="Cascade"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Categorized Cascade"),
+		@Raw(key="TABBED", value="Tabbed"),
+		@Raw(key="STEPPED", value="Stepped"),
+		@Raw(key="CUSTOM_TABBED", value="Fieldset tabbed (custom views)"),
+		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
 	@Categories("Appearance")
@@ -241,7 +249,7 @@ public class KongaEntity {
 		@Raw(key="STANDARD", value="Label and input in block"),
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
-	@Defaults("STANDARD")
+	@Defaults("HORIZONTAL")
 	@Categories("Appearance")
 	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles resultsStyle;
@@ -254,12 +262,12 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Type(value=DataTypes.STRING, list={
-		@Raw(key="CASCADE", value="Cascade form"),
-		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
-		@Raw(key="TABBED", value="Tabbed form (via categories)"),
-		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
-		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
-		@Raw(key="CUSTOM", value="Completely custom form")
+		@Raw(key="CASCADE", value="Cascade"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Categorized Cascade"),
+		@Raw(key="TABBED", value="Tabbed"),
+		@Raw(key="STEPPED", value="Stepped"),
+		@Raw(key="CUSTOM_TABBED", value="Fieldset tabbed (custom views)"),
+		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
 	@Categories("Appearance")
@@ -271,13 +279,11 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Details form style")
-	@ShowInUpdate
-	@Editable
 	@Type(value=DataTypes.STRING, list={
 		@Raw(key="STANDARD", value="Label and input in block"),
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
-	@Defaults("STANDARD")
+	@Defaults("HORIZONTAL")
 	@Categories("Appearance")
 	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles detailsStyle;
@@ -290,12 +296,12 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Type(value=DataTypes.STRING, list={
-		@Raw(key="CASCADE", value="Cascade form"),
-		@Raw(key="CATEGORIZED_CASCADE", value="Cascade, grouped by categories"),
-		@Raw(key="TABBED", value="Tabbed form (via categories)"),
-		@Raw(key="STEPPED", value="Stepped form (via categories named step-N)"),
-		@Raw(key="CUSTOM_TABBED", value="Tabbed form with custom templates (via fieldsets and customization)"),
-		@Raw(key="CUSTOM", value="Completely custom form")
+		@Raw(key="CASCADE", value="Cascade"),
+		@Raw(key="CATEGORIZED_CASCADE", value="Categorized Cascade"),
+		@Raw(key="TABBED", value="Tabbed"),
+		@Raw(key="STEPPED", value="Stepped"),
+		@Raw(key="CUSTOM_TABBED", value="Fieldset tabbed (custom views)"),
+		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
 	@Categories("Appearance")
@@ -307,13 +313,11 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Update form style")
-	@ShowInUpdate
-	@Editable
 	@Type(value=DataTypes.STRING, list={
 		@Raw(key="STANDARD", value="Label and input in block"),
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
-	@Defaults("STANDARD")
+	@Defaults("HORIZONTAL")
 	@Categories("Appearance")
 	@FieldType(FieldTypes.COMBOBOX)
 	private FormStyles updateStyle;
@@ -369,6 +373,13 @@ public class KongaEntity {
 	@FieldType(FieldTypes.PICK_LIST)
 	@Multiplicity(Multiplicities.MANY)
 	@Categories("Fields")
+	@OverrideDefaults(
+		@Action(overrides="add", name="add-field-to-entity")
+	)
+	@Actions({
+		@Action(icon="fa fa-edit", name="edit-field", label="Edit", scope=FormModes.UPDATE),
+		@Action(icon="fa fa-remove", name="remove-field", label="Remove", scope=FormModes.UPDATE)
+	})
 	private List<KongaField> fields;
 	
 	/**
