@@ -163,6 +163,9 @@ public class KongaField {
 	@Categories("Identification")
 	private Boolean isLabel;
 	
+	// TODO Go!
+	private Linked linked;
+	
 	/**
 	 * Whether the field defines a parent for the entity (for hiearchized elements)
 	 */
@@ -533,5 +536,13 @@ public class KongaField {
 
 	public void setSortable(Boolean sortable) {
 		this.sortable = sortable;
+	}
+
+	public Linked getLinked() {
+		return linked;
+	}
+
+	public void setLinked(Linked linked) {
+		this.linked = linked;
 	}
 }

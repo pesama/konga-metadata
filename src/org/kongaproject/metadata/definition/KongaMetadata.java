@@ -16,14 +16,17 @@ import org.kongaproject.metadata.annotations.Editable;
 import org.kongaproject.metadata.annotations.Entity;
 import org.kongaproject.metadata.annotations.EntityId;
 import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.EntityLabel;
 import org.kongaproject.metadata.annotations.Field;
 import org.kongaproject.metadata.annotations.FieldType;
 import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.Linked;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
 import org.kongaproject.metadata.annotations.OverrideDefaults;
+import org.kongaproject.metadata.annotations.Priority;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Searchable;
 import org.kongaproject.metadata.annotations.ShowInResults;
@@ -53,15 +56,24 @@ public class KongaMetadata {
 	private Integer id;
 	
 	@Field
+	@EntityKey
+	@Label("Your app key")
+	@ShowInResults
+	@ShowInUpdate
+	@Linked(to="name", via="app-key-generator")
+	private String appKey;
+	
+	@Field
 	@Label("Name")
 	@Type(DataTypes.STRING)
-	@EntityKey
+	@EntityLabel
 	@Searchable
 	@ShowInResults
 	@ShowInUpdate
 	@Editable
 	@Required
 	@MaxLength(40)
+	@Priority(1)
 	private String name;
 
 	@Field

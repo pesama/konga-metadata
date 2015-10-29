@@ -35,6 +35,7 @@ import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.FormType;
 import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.Linked;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.MinLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
@@ -124,6 +125,7 @@ public class KongaGenerator {
 	private static Class<Sortable> annotationSortable = Sortable.class;
 	private static Class<Favoriteable> annotationFavoriteable = Favoriteable.class;
 	private static Class<Hint> annotationHint = Hint.class;
+	private static Class<Linked> annotationLinked = Linked.class;
 	
 	// Store registered metadata
 	private static List<KongaMetadata> registeredApplications = new ArrayList<KongaMetadata>();
@@ -554,9 +556,22 @@ public class KongaGenerator {
 		// Setup sortable
 		result.setSortable(KongaGenerator.getSortable(source));
 		
+		result.setLinked(KongaGenerator.getLinked(source));
+		
 		return result;
 	}
 	
+	private static org.kongaproject.metadata.definition.Linked getLinked(Field source) {
+		if(source.isAnnotationPresent(annotationLinked)) {
+			Linked annotation = source.getAnnotation(annotationLinked);
+			org.kongaproject.metadata.definition.Linked linkedField = new org.kongaproject.metadata.definition.Linked();
+			
+			linkedField.setTo(annotation.to());
+			linkedField.setVia(annotation.via());
+		}
+		return null;
+	}
+
 	private static String getHint(Field source) {
 		if(source.isAnnotationPresent(annotationHint)) {
 			Hint annotation = source.getAnnotation(annotationHint);
