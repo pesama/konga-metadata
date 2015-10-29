@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kongaproject.metadata.annotations.Action;
 import org.kongaproject.metadata.annotations.Actions;
 import org.kongaproject.metadata.annotations.ApiPath;
+import org.kongaproject.metadata.annotations.Categories;
 import org.kongaproject.metadata.annotations.Createable;
 import org.kongaproject.metadata.annotations.Deleteable;
 import org.kongaproject.metadata.annotations.Editable;
@@ -26,7 +27,7 @@ import org.kongaproject.metadata.annotations.Linked;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
 import org.kongaproject.metadata.annotations.OverrideDefaults;
-import org.kongaproject.metadata.annotations.Priority;
+import org.kongaproject.metadata.annotations.Raw;
 import org.kongaproject.metadata.annotations.Required;
 import org.kongaproject.metadata.annotations.Searchable;
 import org.kongaproject.metadata.annotations.ShowInResults;
@@ -56,15 +57,7 @@ public class KongaMetadata {
 	private Integer id;
 	
 	@Field
-	@EntityKey
-	@Label("Your app key")
-	@ShowInResults
-	@ShowInUpdate
-	@Linked(to="name", via="app-key-generator")
-	private String appKey;
-	
-	@Field
-	@Label("Name")
+	@Label("Name of your app")
 	@Type(DataTypes.STRING)
 	@EntityLabel
 	@Searchable
@@ -73,12 +66,25 @@ public class KongaMetadata {
 	@Editable
 	@Required
 	@MaxLength(40)
-	@Priority(1)
+	@Categories("config")
 	private String name;
+	
+	@Field
+	@EntityKey
+	@Label("Konga's App key")
+	@ShowInResults
+	@ShowInUpdate
+	@Linked(to="name", via="app-key-generator")
+	private String appKey;
 
 	@Field
 	@Label("Entities")
-	@ShowInUpdate(fields={"id", "name", "access"})
+	@ShowInUpdate(
+		fields={"id", "name", "access"},
+		configuration={
+			@Raw(key="hide-when-creating", value="true")
+		}
+	)
 	@Editable
 	@Type(value=DataTypes.COMPLEX, complexType="konga-entity")
 	@FieldType(value=FieldTypes.PICK_LIST)
@@ -129,6 +135,22 @@ public class KongaMetadata {
 		this.configuration = configuration;
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getAppKey() {
+		return appKey;
+	}
+
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
+
 	// TODO Add other stuff
 	public String toJson() {
 		ObjectMapper mapper = new ObjectMapper();

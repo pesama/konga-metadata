@@ -568,6 +568,8 @@ public class KongaGenerator {
 			
 			linkedField.setTo(annotation.to());
 			linkedField.setVia(annotation.via());
+			
+			return linkedField;
 		}
 		return null;
 	}
