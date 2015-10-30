@@ -20,6 +20,7 @@ import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.FormType;
 import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.Linked;
 import org.kongaproject.metadata.annotations.MaxLength;
 import org.kongaproject.metadata.annotations.Multiplicity;
 import org.kongaproject.metadata.annotations.OverrideDefaults;
@@ -37,6 +38,7 @@ import org.kongaproject.metadata.definition.enumerations.FormStyles;
 import org.kongaproject.metadata.definition.enumerations.FormTypes;
 import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 import org.kongaproject.metadata.definition.enumerations.Stereotypes;
+
 
 @Entity("konga-entity")
 @Label("Entity")
@@ -141,49 +143,81 @@ public class KongaEntity {
 	/**
 	 * Permission needed for searching the entity
 	 */
-	@Field
-	@Label("Search permissions")
-	@Hint("Permission for search. If left blank, anybody could search this entity")
+	@Field("searchable")
+	@Label("Searchable")
+	@FieldType(update=FieldTypes.BOOLEAN)
 	@ShowInUpdate
 	@Editable
-	@Defaults("")
+	@Defaults("false")
 	@Categories("Visibility")
+	private boolean searchEnabled;
+	
+	@Field("searchPermissions")
+	@Label("For who?")
+	@Hint("Permission for search. Left blank for public")
+	@ShowInUpdate
+	@Categories("Visibility")
+	@Linked(to="searchable", via="permissions-checked")
 	private String searchable;
 	
 	/**
 	 * Permission needed for creating entities
 	 */
-	@Field
-	@Label("Create permissions")
-	@Hint("Permission for creating. If left blank, anybody could create new items of this type")
+	@Field("createable")
+	@Label("Createable")
+	@FieldType(update=FieldTypes.BOOLEAN)
 	@ShowInUpdate
 	@Editable
-	@Defaults("")
+	@Defaults("false")
 	@Categories("Visibility")
+	private boolean createEnabled;
+	
+	@Field("createPermissions")
+	@Label("For who?")
+	@Hint("Permission for creating. Left blank for public")
+	@ShowInUpdate
+	@Categories("Visibility")
+	@Linked(to="createable", via="permissions-checked")
 	private String createable;
 	
 	/**
 	 * Permission needed for updating the entity
 	 */
-	@Field
-	@Label("Update permissions")
-	@Hint("Permission for updating. If left blank, anybody could update this type of entities")
+	@Field("editable")
+	@Label("Editable")
+	@FieldType(update=FieldTypes.BOOLEAN)
 	@ShowInUpdate
 	@Editable
-	@Defaults("")
+	@Defaults("false")
 	@Categories("Visibility")
+	private boolean editPermissions;
+	
+	@Field("editPermissions")
+	@Label("For who?")
+	@Hint("Permission for edition. Left blank for public")
+	@ShowInUpdate
+	@Categories("Visibility")
+	@Linked(to="editable", via="permissions-checked")
 	private String editable;
 	
 	/**
 	 * Permission needed for deleting 
 	 */
-	@Field
-	@Label("Delete permissions")
-	@Hint("Permission for deleting. If left blank, anybody could delete entities")
+	@Field("deleteable")
+	@Label("Deleteable")
+	@FieldType(update=FieldTypes.BOOLEAN)
 	@ShowInUpdate
 	@Editable
-	@Defaults("")
+	@Defaults("false")
 	@Categories("Visibility")
+	private boolean deletePermissions;
+	
+	@Field("deletePermissions")
+	@Label("For who?")
+	@Hint("Permission for search. If left blank, anybody could search this entity")
+	@ShowInUpdate
+	@Categories("Visibility")
+	@Linked(to="deleteable", via="permissions-checked")
 	private String deleteable;
 	
 	/**
