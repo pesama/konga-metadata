@@ -115,7 +115,7 @@ public class KongaField {
 	@Categories("Typology")
 	@Type(value=DataTypes.COMPLEX, complexType="data-type")
 	@Required
-	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.LINK)
+	@FieldType(FieldTypes.LINK)
 	@OverrideDefaults(
 		@Action(overrides="open-link", name="set-modal-entity")
 	)
@@ -274,7 +274,7 @@ public class KongaField {
 	@Editable
 	@Type(value=DataTypes.COMPLEX, complexType="field-type")
 	@Categories("Typology")
-	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.LINK)
+	@FieldType(FieldTypes.LINK)
 	@OverrideDefaults(
 		@Action(overrides="open-link", name="set-modal-entity")
 	)
@@ -312,7 +312,7 @@ public class KongaField {
 	@Editable
 	@FieldType(update=FieldTypes.BOOLEAN)
 	@Categories("Validation")
-	private boolean unique;
+	private Boolean unique;
 	
 	/**
 	 * Security configuration
@@ -329,6 +329,9 @@ public class KongaField {
 	@Type(value=DataTypes.COMPLEX, complexType="validation")
 	@FieldType(FieldTypes.LINK)
 	@Categories("Validation")
+	@OverrideDefaults(
+		@Action(overrides="open-link", name="set-modal-entity")
+	)
 	private Validation validation;
 	
 	/**
@@ -575,11 +578,11 @@ public class KongaField {
 		this.searchConf = searchConf;
 	}
 
-	public boolean isUnique() {
+	public Boolean isUnique() {
 		return unique;
 	}
 
-	public void setUnique(boolean unique) {
+	public void setUnique(Boolean unique) {
 		this.unique = unique;
 	}
 
