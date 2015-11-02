@@ -76,6 +76,13 @@ public class KongaMetadata {
 	@ShowInUpdate
 	@Linked(to="name", via="app-key-generator")
 	private String appKey;
+	
+//	@Field
+//	@Label("Icon")
+//	@ShowInUpdate
+//	@Editable
+//	@FieldType(FieldTypes.CSS)
+	private String icon;
 
 	@Field
 	@Label("Entities")

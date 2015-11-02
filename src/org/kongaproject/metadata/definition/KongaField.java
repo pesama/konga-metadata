@@ -6,7 +6,6 @@ import org.kongaproject.metadata.annotations.Action;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Categories;
 import org.kongaproject.metadata.annotations.Createable;
-import org.kongaproject.metadata.annotations.Defaults;
 import org.kongaproject.metadata.annotations.Deleteable;
 import org.kongaproject.metadata.annotations.Editable;
 import org.kongaproject.metadata.annotations.Entity;
@@ -14,10 +13,12 @@ import org.kongaproject.metadata.annotations.EntityId;
 import org.kongaproject.metadata.annotations.EntityKey;
 import org.kongaproject.metadata.annotations.EntityLabel;
 import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.FieldType;
 import org.kongaproject.metadata.annotations.FormStyle;
 import org.kongaproject.metadata.annotations.FormType;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.MaxLength;
+import org.kongaproject.metadata.annotations.Multiplicity;
 import org.kongaproject.metadata.annotations.OverrideDefaults;
 import org.kongaproject.metadata.annotations.Raw;
 import org.kongaproject.metadata.annotations.Required;
@@ -25,7 +26,6 @@ import org.kongaproject.metadata.annotations.Searchable;
 import org.kongaproject.metadata.annotations.ShowInResults;
 import org.kongaproject.metadata.annotations.ShowInUpdate;
 import org.kongaproject.metadata.annotations.Type;
-import org.kongaproject.metadata.definition.FieldType;
 import org.kongaproject.metadata.definition.enumerations.AccessModes;
 import org.kongaproject.metadata.definition.enumerations.DataTypes;
 import org.kongaproject.metadata.definition.enumerations.FieldTypes;
@@ -111,18 +111,13 @@ public class KongaField {
 	@Label("Data Type")
 	@ShowInUpdate
 	@Editable
-	@Categories("Definition")
-	@Type(value=DataTypes.STRING, list={
-		@Raw(key="STRING", value="String"),
-		@Raw(key="NUMBER", value="Number"),
-		@Raw(key="BOOLEAN", value="Boolean"),
-		@Raw(key="DATE", value="Date"),
-		@Raw(key="COMPLEX", value="Complex (Reference to another object)"),
-		@Raw(key="FILE", value="File")
-	})
+	@Categories("Typology")
+	@Type(value=DataTypes.COMPLEX, complexType="data-type")
 	@Required
-	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
-	@Defaults("STRING")
+	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.LINK)
+	@OverrideDefaults(
+		@Action(overrides="open-link", name="set-modal-entity")
+	)
 	private DataType type;
 	
 	/**
@@ -136,7 +131,7 @@ public class KongaField {
 	@Field
 	@Label("Entity ID")
 	@ShowInResults("SUPER_ADMIN")
-	@ShowInUpdate("SUPER_ADMIN")
+	@ShowInUpdate
 	@Editable("SUPER_ADMIN")
 	@Categories("Identification")
 	private Boolean isId;
@@ -147,7 +142,7 @@ public class KongaField {
 	@Field
 	@Label("Entity key")
 	@ShowInResults("SUPER_ADMIN")
-	@ShowInUpdate("SUPER_ADMIN")
+	@ShowInUpdate
 	@Editable("SUPER_ADMIN")
 	@Categories("Identification")
 	private Boolean isKey;
@@ -158,7 +153,7 @@ public class KongaField {
 	@Field
 	@Label("Entity label")
 	@ShowInResults("SUPER_ADMIN")
-	@ShowInUpdate("SUPER_ADMIN")
+	@ShowInUpdate
 	@Editable("SUPER_ADMIN")
 	@Categories("Identification")
 	private Boolean isLabel;
@@ -174,41 +169,93 @@ public class KongaField {
 	/**
 	 * Configuration for quick searching by that field
 	 */
+//	@Field
+//	@Label("Quick search configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration quickSearch;
 	
 	/**
 	 * Configuration for search rendering
 	 */
+//	@Field
+//	@Label("Search configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration searchable;
 	
 	/**
 	 * Configuration for update permissions
 	 */
+//	@Field
+//	@Label("Edit configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration editable;
 	
 	/**
 	 * Configuration for results rendering
 	 */
+//	@Field
+//	@Label("Results show configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration showInResults;
 	
 	/**
 	 * Configuration for update rendering
 	 */
+//	@Field
+//	@Label("Update show configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration showInUpdate;
 	
 	/**
 	 * Configuration for details rendering
 	 */
+//	@Field
+//	@Label("Details show configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="show-configuration")
+//	@Categories("Operations")
 	private ShowConfiguration showInDetails;
 	
 	/**
 	 * Multiplicity of the field within the entity
 	 */
+	@Field
+	@Label("Multiplicity")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.STRING, list={
+		@Raw(key="ONE", value="One to One"),
+		@Raw(key="MANY", value="One to Many")
+	})
+	@FieldType(update=FieldTypes.COMBOBOX)
+	@Categories("Typology")
 	private Multiplicities multiplicity;
 	
 	/**
 	 * Categories for the field
 	 */
+	@Field
+	@Label("Categories")
+	@ShowInUpdate
+	@Editable
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Typology")
 	private List<String> categories;
 	
 	/**
@@ -219,22 +266,50 @@ public class KongaField {
 	/**
 	 * Field type configuration (for rendering)
 	 */
-	private FieldType fieldType;
+	@Field
+	@Label("Appearance")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="field-type")
+	@Categories("Typology")
+	@org.kongaproject.metadata.annotations.FieldType(FieldTypes.LINK)
+	@OverrideDefaults(
+		@Action(overrides="open-link", name="set-modal-entity")
+	)
+	private org.kongaproject.metadata.definition.FieldType fieldType;
 	
 	/**
 	 * Default value
 	 * TODO Perform the cast here and convert this class into generic
 	 */
+	@Field
+	@Label("Default value")
+	@ShowInUpdate
+	@Editable
+	@Categories("Typology")
 	private String defaults;
 	
 	/**
 	 * Search configuration for the field
 	 */
+//	@Field
+//	@Label("Search configuration")
+//	@ShowInUpdate
+//	@Editable
+//	@Type(value=DataTypes.COMPLEX, complexType="search-configuration")
+//	@FieldType(update=FieldTypes.PLAIN)
+//	@Categories("Configuration")
 	private SearchConf searchConf;
 	
 	/**
 	 * Whether the value of the field must be unique
 	 */
+	@Field
+	@Label("Unique value")
+	@ShowInUpdate
+	@Editable
+	@FieldType(update=FieldTypes.BOOLEAN)
+	@Categories("Validation")
 	private boolean unique;
 	
 	/**
@@ -245,31 +320,71 @@ public class KongaField {
 	/**
 	 * Data validation configuration
 	 */
+//	@Field
+//	@Label("Validation")
+//	@ShowInUpdate
+//	@Editable
+//	@FieldType(update=FieldTypes.BOOLEAN)
+//	@Categories("Validation")
 	private Validation validation;
 	
 	/**
 	 * Available triggers for the field
 	 */
+//	@Field
+//	@Label("Triggers")
+//	@ShowInUpdate
+//	@Editable
+////	@FieldType(update=FieldTypes.PICK_LIST)
+//	@Categories("Triggers")
 	private List<Trigger> triggers;
 	
 	/**
 	 * Order of the field
 	 */
+//	@Field
+//	@Label("Priority")
+//	@ShowInUpdate
+//	@Editable
+////	@FieldType(update=FieldTypes.BOOLEAN)
+//	@Categories("Identification")
 	private Priority priority;
 	
 	/**
 	 * Set for the field (placeholder)
 	 */
+//	@Field
+//	@Label("Field set")
+//	@ShowInUpdate
+//	@Editable
+////	@FieldType(update=FieldTypes.BOOLEAN)
+//	@Categories("Typology")
 	private String fieldSet;
 	
 	/**
 	 * Entity actions
 	 */
+	@Field
+	@Label("Actions")
+	@ShowInUpdate(fields={"name", "icon", "scope"})
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="konga-action")
+	@FieldType(update=FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Customization")
 	private List<KongaAction> actions;
 	
 	/**
 	 * List of overriden native actions
 	 */
+	@Field
+	@Label("Override defaults")
+	@ShowInUpdate(fields={"overrides", "name", "icon"})
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="konga-action")
+	@FieldType(update=FieldTypes.PICK_LIST)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Customization")
 	private List<KongaAction> overrideDefaults;
 	
 	/**
@@ -280,6 +395,13 @@ public class KongaField {
 	/**
 	 * Defines whether the field is sortable (for tables)
 	 */
+	@Field
+	@Label("Sortable")
+	@ShowInUpdate
+	@Editable
+	@FieldType(update=FieldTypes.BOOLEAN)
+	@Multiplicity(Multiplicities.MANY)
+	@Categories("Configuration")
 	private Boolean sortable;
 
 	public String getName() {
@@ -426,11 +548,11 @@ public class KongaField {
 		this.apiName = apiName;
 	}
 
-	public FieldType getFieldType() {
+	public org.kongaproject.metadata.definition.FieldType getFieldType() {
 		return fieldType;
 	}
 
-	public void setFieldType(FieldType fieldType) {
+	public void setFieldType(org.kongaproject.metadata.definition.FieldType fieldType) {
 		this.fieldType = fieldType;
 	}
 

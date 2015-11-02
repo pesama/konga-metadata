@@ -132,7 +132,7 @@ public class KongaEntity {
 	})
 	@Defaults("public")
 	@FieldType(FieldTypes.COMBOBOX)
-	@Categories("Visibility")
+	@Categories("Operations")
 	private AccessModes access;
 	
 	/**
@@ -149,14 +149,14 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Visibility")
+	@Categories("Operations")
 	private boolean searchEnabled;
 	
 	@Field("searchPermissions")
 	@Label("For who?")
 	@Hint("Permission for search. Left blank for public")
 	@ShowInUpdate
-	@Categories("Visibility")
+	@Categories("Operations")
 	@Linked(to="searchable", via="permissions-checked")
 	private String searchable;
 	
@@ -169,14 +169,14 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Visibility")
+	@Categories("Operations")
 	private boolean createEnabled;
 	
 	@Field("createPermissions")
 	@Label("For who?")
 	@Hint("Permission for creating. Left blank for public")
 	@ShowInUpdate
-	@Categories("Visibility")
+	@Categories("Operations")
 	@Linked(to="createable", via="permissions-checked")
 	private String createable;
 	
@@ -189,14 +189,14 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Visibility")
+	@Categories("Operations")
 	private boolean editPermissions;
 	
 	@Field("editPermissions")
 	@Label("For who?")
 	@Hint("Permission for edition. Left blank for public")
 	@ShowInUpdate
-	@Categories("Visibility")
+	@Categories("Operations")
 	@Linked(to="editable", via="permissions-checked")
 	private String editable;
 	
@@ -209,14 +209,14 @@ public class KongaEntity {
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Visibility")
+	@Categories("Operations")
 	private boolean deletePermissions;
 	
 	@Field("deletePermissions")
 	@Label("For who?")
 	@Hint("Permission for search. If left blank, anybody could search this entity")
 	@ShowInUpdate
-	@Categories("Visibility")
+	@Categories("Operations")
 	@Linked(to="deleteable", via="permissions-checked")
 	private String deleteable;
 	

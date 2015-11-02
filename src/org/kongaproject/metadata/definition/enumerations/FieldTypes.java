@@ -3,17 +3,14 @@ package org.kongaproject.metadata.definition.enumerations;
 public enum FieldTypes {
 	UNDEFINED,
 	PLAIN,
-	PLAIN_FILTERED,
 	DATE,
 	DATETIME,
 	NUMBER,
 	QUANTITY,
 	PRICE,
 	SELECT,
-	FILTERED_SELECT,
 	TABLE,
 	PICK_LIST,
-	MULTI_PICK_LIST,
 	BOOLEAN,
 	OPTION,
 	COMPLEX,
@@ -22,6 +19,8 @@ public enum FieldTypes {
 	PASSWORD,
 	COLOR,
 	CSS,
-	FILE, IMAGE,
-	CUSTOM
+	FILE, 
+	IMAGE,
+	CUSTOM,
+	LINK
 }

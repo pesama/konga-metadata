@@ -7,6 +7,7 @@ import org.kongaproject.metadata.annotations.Editable;
 import org.kongaproject.metadata.annotations.Entity;
 import org.kongaproject.metadata.annotations.EntityId;
 import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.EntityLabel;
 import org.kongaproject.metadata.annotations.Field;
 import org.kongaproject.metadata.annotations.Hint;
 import org.kongaproject.metadata.annotations.Label;
@@ -33,6 +34,10 @@ public class ConfigurationParam {
 	@EntityKey
 	private String key;
 	
+	@Field
+	@Label("Value")
+	@Hint("Choose a value for your configuration")
+	@EntityLabel
 	private Object value;
 	
 	public ConfigurationParam() {
