@@ -6,6 +6,7 @@ import org.kongaproject.metadata.annotations.Action;
 import org.kongaproject.metadata.annotations.ApiPath;
 import org.kongaproject.metadata.annotations.Categories;
 import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Defaults;
 import org.kongaproject.metadata.annotations.Deleteable;
 import org.kongaproject.metadata.annotations.Editable;
 import org.kongaproject.metadata.annotations.Entity;
@@ -245,6 +246,7 @@ public class KongaField {
 	})
 	@FieldType(update=FieldTypes.COMBOBOX)
 	@Categories("Typology")
+	@Defaults("ONE")
 	private Multiplicities multiplicity;
 	
 	/**
@@ -320,12 +322,13 @@ public class KongaField {
 	/**
 	 * Data validation configuration
 	 */
-//	@Field
-//	@Label("Validation")
-//	@ShowInUpdate
-//	@Editable
-//	@FieldType(update=FieldTypes.BOOLEAN)
-//	@Categories("Validation")
+	@Field
+	@Label("Validation rules")
+	@ShowInUpdate
+	@Editable
+	@Type(value=DataTypes.COMPLEX, complexType="validation")
+	@FieldType(FieldTypes.LINK)
+	@Categories("Validation")
 	private Validation validation;
 	
 	/**

@@ -2,15 +2,55 @@ package org.kongaproject.metadata.definition;
 
 import java.util.List;
 
+import org.kongaproject.metadata.annotations.Createable;
+import org.kongaproject.metadata.annotations.Deleteable;
+import org.kongaproject.metadata.annotations.Editable;
+import org.kongaproject.metadata.annotations.Entity;
+import org.kongaproject.metadata.annotations.EntityId;
+import org.kongaproject.metadata.annotations.EntityKey;
+import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.Label;
+import org.kongaproject.metadata.annotations.Searchable;
+import org.kongaproject.metadata.annotations.ShowInUpdate;
+
+@Entity("validation")
+@Label("Validation rules")
+@Createable
+@Searchable
+@Editable
+@Deleteable
 public class Validation {
-	private boolean required;
+	
+	@Field
+	@EntityId
+	@EntityKey
+	private Integer id;
+	
+	@Field
+	@Label("Required field")
+	@ShowInUpdate
+	@Editable
+	private Boolean required;
+	
+	@Field
+	@Label("Minimum")
+	@ShowInUpdate
+	@Editable
 	private Integer minLength;
+	
+	@Field
+	@Label("Maximum")
+	@ShowInUpdate
+	@Editable
 	private Integer maxLength;
+	
+//	TODO
 	private List<Validator> validators;
-	public boolean isRequired() {
+	
+	public Boolean isRequired() {
 		return required;
 	}
-	public void setRequired(boolean required) {
+	public void setRequired(Boolean required) {
 		this.required = required;
 	}
 	public Integer getMinLength() {
