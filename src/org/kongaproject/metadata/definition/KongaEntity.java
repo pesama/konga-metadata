@@ -50,7 +50,7 @@ import org.kongaproject.metadata.definition.enumerations.Stereotypes;
 @FormType(update=FormTypes.TABBED)
 @FormStyle(update=FormStyles.HORIZONTAL)
 @OverrideDefaults(
-	@Action(overrides="save", name="save-entity-to-metadata")
+	@Action(overrides="save", name="inner-save")
 )
 public class KongaEntity {
 	

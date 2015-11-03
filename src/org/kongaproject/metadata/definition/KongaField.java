@@ -44,7 +44,7 @@ import org.kongaproject.metadata.definition.enumerations.Multiplicities;
 @FormType(update=FormTypes.TABBED)
 @FormStyle(update=FormStyles.HORIZONTAL)
 @OverrideDefaults(
-	@Action(overrides="save", name="save-field-to-entity")
+	@Action(overrides="save", name="inner-save")
 )
 public class KongaField {
 	
