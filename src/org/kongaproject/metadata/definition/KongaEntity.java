@@ -156,6 +156,7 @@ public class KongaEntity {
 	@Label("For who?")
 	@Hint("Permission for search. Left blank for public")
 	@ShowInUpdate
+	@Editable
 	@Categories("Operations")
 	@Linked(to="searchable", via="permissions-checked")
 	private String searchable;
@@ -176,6 +177,7 @@ public class KongaEntity {
 	@Label("For who?")
 	@Hint("Permission for creating. Left blank for public")
 	@ShowInUpdate
+	@Editable
 	@Categories("Operations")
 	@Linked(to="createable", via="permissions-checked")
 	private String createable;
@@ -196,6 +198,7 @@ public class KongaEntity {
 	@Label("For who?")
 	@Hint("Permission for edition. Left blank for public")
 	@ShowInUpdate
+	@Editable
 	@Categories("Operations")
 	@Linked(to="editable", via="permissions-checked")
 	private String editable;
@@ -216,6 +219,7 @@ public class KongaEntity {
 	@Label("For who?")
 	@Hint("Permission for search. If left blank, anybody could search this entity")
 	@ShowInUpdate
+	@Editable
 	@Categories("Operations")
 	@Linked(to="deleteable", via="permissions-checked")
 	private String deleteable;
