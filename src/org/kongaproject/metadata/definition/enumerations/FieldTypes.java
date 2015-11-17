@@ -12,6 +12,7 @@ public enum FieldTypes {
 	TABLE,
 	PICK_LIST,
 	BOOLEAN,
+	SWITCH,
 	OPTION,
 	COMPLEX,
 	COMBOBOX,

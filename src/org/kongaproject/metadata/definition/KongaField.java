@@ -133,7 +133,8 @@ public class KongaField {
 	@Label("Entity ID")
 	@ShowInResults("SUPER_ADMIN")
 	@ShowInUpdate
-	@Editable("SUPER_ADMIN")
+	@Editable
+	@FieldType(FieldTypes.SWITCH)
 	@Categories("Identification")
 	private Boolean isId;
 	
@@ -144,7 +145,8 @@ public class KongaField {
 	@Label("Entity key")
 	@ShowInResults("SUPER_ADMIN")
 	@ShowInUpdate
-	@Editable("SUPER_ADMIN")
+	@Editable
+	@FieldType(FieldTypes.SWITCH)
 	@Categories("Identification")
 	private Boolean isKey;
 	
@@ -155,7 +157,8 @@ public class KongaField {
 	@Label("Entity label")
 	@ShowInResults("SUPER_ADMIN")
 	@ShowInUpdate
-	@Editable("SUPER_ADMIN")
+	@Editable
+	@FieldType(FieldTypes.SWITCH)
 	@Categories("Identification")
 	private Boolean isLabel;
 	
@@ -310,7 +313,7 @@ public class KongaField {
 	@Label("Unique value")
 	@ShowInUpdate
 	@Editable
-	@FieldType(update=FieldTypes.BOOLEAN)
+	@FieldType(FieldTypes.SWITCH)
 	@Categories("Validation")
 	private Boolean unique;
 	

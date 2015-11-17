@@ -9,9 +9,11 @@ import org.kongaproject.metadata.annotations.Entity;
 import org.kongaproject.metadata.annotations.EntityId;
 import org.kongaproject.metadata.annotations.EntityKey;
 import org.kongaproject.metadata.annotations.Field;
+import org.kongaproject.metadata.annotations.FieldType;
 import org.kongaproject.metadata.annotations.Label;
 import org.kongaproject.metadata.annotations.Searchable;
 import org.kongaproject.metadata.annotations.ShowInUpdate;
+import org.kongaproject.metadata.definition.enumerations.FieldTypes;
 
 @Entity("validation")
 @Label("Validation rules")
@@ -29,6 +31,7 @@ public class Validation {
 	@Field
 	@Label("Required field")
 	@ShowInUpdate
+	@FieldType(FieldTypes.SWITCH)
 	@Editable
 	private Boolean required;
 	

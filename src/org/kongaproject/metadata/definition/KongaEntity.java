@@ -143,85 +143,89 @@ public class KongaEntity {
 	/**
 	 * Permission needed for searching the entity
 	 */
-	@Field("searchable")
+	@Field("searchEnabled")
 	@Label("Searchable")
-	@FieldType(update=FieldTypes.BOOLEAN)
+	@Type(DataTypes.BOOLEAN)
+	@FieldType(update=FieldTypes.SWITCH)
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
 	@Categories("Operations")
 	private boolean searchEnabled;
 	
-	@Field("searchPermissions")
+	@Field("searchable")
 	@Label("For who?")
 	@Hint("Permission for search. Left blank for public")
 	@ShowInUpdate
 	@Editable
 	@Categories("Operations")
-	@Linked(to="searchable", via="permissions-checked")
+	@Linked(to="searchEnabled", via="permissions-checked")
 	private String searchable;
 	
 	/**
 	 * Permission needed for creating entities
 	 */
-	@Field("createable")
+	@Field("createEnabled")
 	@Label("Createable")
-	@FieldType(update=FieldTypes.BOOLEAN)
+	@Type(DataTypes.BOOLEAN)
+	@FieldType(update=FieldTypes.SWITCH)
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
 	@Categories("Operations")
 	private boolean createEnabled;
 	
-	@Field("createPermissions")
+	@Field("createable")
 	@Label("For who?")
 	@Hint("Permission for creating. Left blank for public")
 	@ShowInUpdate
 	@Editable
 	@Categories("Operations")
-	@Linked(to="createable", via="permissions-checked")
+	@Linked(to="createEnabled", via="permissions-checked")
 	private String createable;
 	
 	/**
 	 * Permission needed for updating the entity
 	 */
-	@Field("editable")
+	@Field("editEnabled")
 	@Label("Editable")
-	@FieldType(update=FieldTypes.BOOLEAN)
+	@Type(DataTypes.BOOLEAN)
+	@FieldType(update=FieldTypes.SWITCH)
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
 	@Categories("Operations")
-	private boolean editPermissions;
+	private boolean editEnabled;
 	
-	@Field("editPermissions")
+	@Field("editable")
 	@Label("For who?")
 	@Hint("Permission for edition. Left blank for public")
 	@ShowInUpdate
 	@Editable
 	@Categories("Operations")
-	@Linked(to="editable", via="permissions-checked")
+	@Linked(to="editEnabled", via="permissions-checked")
 	private String editable;
 	
 	/**
 	 * Permission needed for deleting 
 	 */
-	@Field("deleteable")
+	@Field("deleteEnabled")
 	@Label("Deleteable")
-	@FieldType(update=FieldTypes.BOOLEAN)
+	@Type(DataTypes.BOOLEAN)
+	@FieldType(update=FieldTypes.SWITCH)
 	@ShowInUpdate
 	@Editable
 	@Defaults("false")
 	@Categories("Operations")
 	private boolean deletePermissions;
 	
-	@Field("deletePermissions")
+	@Field("deleteable")
 	@Label("For who?")
 	@Hint("Permission for search. If left blank, anybody could search this entity")
 	@ShowInUpdate
 	@Editable
 	@Categories("Operations")
-	@Linked(to="deleteable", via="permissions-checked")
+	@Linked(to="deleteEnabled", via="permissions-checked")
 	private String deleteable;
 	
 	/**
