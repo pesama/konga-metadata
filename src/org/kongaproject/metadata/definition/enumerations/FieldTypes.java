@@ -23,5 +23,6 @@ public enum FieldTypes {
 	FILE, 
 	IMAGE,
 	CUSTOM,
-	LINK
+	LINK,
+	CALENDAR
 }
