@@ -59,49 +59,4 @@
 		</dependency>
 	</dependencies>
 
-	<scm>
-		<connection>scm:svn:http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</connection>
-		<developerConnection>scm:svn:http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</developerConnection>
-		<url>http://194.45.152.20/svn/nge-newsigma/trunk/KongaMetadata</url>
-	</scm>
-	
-	<profiles>
-        <profile>
-            <id>cscServer2</id>
-            <activation>
-               <activeByDefault>false</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url> http://195.55.105.194:8081/nexus/content/repositories/releases/</url>
-                </repository>
-                <snapshotRepository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url> http://195.55.105.194:8081/nexus/content/repositories/snapshots/</url>
-                </snapshotRepository>
-             </distributionManagement>
-        </profile>
-        <profile>
-            <id>cscServer</id>
-            <activation>
-               <activeByDefault>false</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url>http://20.34.36.150:8082/nexus/content/repositories/releases/</url>
-                </repository>
-                <snapshotRepository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url>http://20.34.36.150:8082/nexus/content/repositories/snapshots/</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
-
 	</project>
