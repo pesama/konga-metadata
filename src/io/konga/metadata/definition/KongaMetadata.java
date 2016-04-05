@@ -1,16 +1,5 @@
 package io.konga.metadata.definition;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import io.konga.metadata.annotations.Linked;
-import io.konga.metadata.definition.enumerations.FieldTypes;
-import io.konga.metadata.definition.enumerations.FormModes;
-import io.konga.metadata.definition.enumerations.FormStyles;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import io.konga.metadata.annotations.Action;
 import io.konga.metadata.annotations.Actions;
 import io.konga.metadata.annotations.ApiPath;
@@ -27,6 +16,7 @@ import io.konga.metadata.annotations.FieldType;
 import io.konga.metadata.annotations.FormStyle;
 import io.konga.metadata.annotations.Hint;
 import io.konga.metadata.annotations.Label;
+import io.konga.metadata.annotations.Linked;
 import io.konga.metadata.annotations.MaxLength;
 import io.konga.metadata.annotations.Multiplicity;
 import io.konga.metadata.annotations.OverrideDefaults;
@@ -37,7 +27,18 @@ import io.konga.metadata.annotations.ShowInResults;
 import io.konga.metadata.annotations.ShowInUpdate;
 import io.konga.metadata.annotations.Type;
 import io.konga.metadata.definition.enumerations.DataTypes;
+import io.konga.metadata.definition.enumerations.FieldTypes;
+import io.konga.metadata.definition.enumerations.FormModes;
+import io.konga.metadata.definition.enumerations.FormStyles;
 import io.konga.metadata.definition.enumerations.Multiplicities;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 @Entity("konga-metadata")
 @Label("Metadata")
@@ -82,6 +83,7 @@ public class KongaMetadata {
 //	@ShowInUpdate
 //	@Editable
 //	@FieldType(FieldTypes.CSS)
+	@SuppressWarnings("unused")
 	private String icon;
 
 	@Field
