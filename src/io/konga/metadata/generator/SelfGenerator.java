@@ -8,19 +8,21 @@ import io.konga.metadata.definition.KongaMetadata;
 public class SelfGenerator {
 
 	public SelfGenerator() throws Exception {
-		KongaDefinition definition = new KongaDefinition("Konga Metadata", "org.kongaproject.metadata.definition");
+		KongaDefinition definition = new KongaDefinition("Konga Metadata", "io.konga.metadata.definition");
 		
 		KongaMetadata metadata = KongaGenerator.readPackage(definition);
 		
-		System.out.println("parsing");
+//		System.out.println("parsing");
 		
 		String metadataJson = metadata.toJson();
 		
-		FileWriter fw = new FileWriter("./metadata.json");
-		fw.write(metadataJson);
-		fw.close();
+//		FileWriter fw = new FileWriter("./metadata.json");
+//		fw.write(metadataJson);
+//		fw.close();
 		
-		System.out.println("ready");
+//		System.out.println("ready");
+		
+		System.out.println(metadataJson);
 	}
 
 	/**

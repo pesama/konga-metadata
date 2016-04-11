@@ -17,6 +17,8 @@ import io.konga.metadata.annotations.EntityId;
 import io.konga.metadata.annotations.EntityKey;
 import io.konga.metadata.annotations.EntityLabel;
 import io.konga.metadata.annotations.Field;
+import io.konga.metadata.annotations.FieldSets;
+import io.konga.metadata.annotations.FieldSet;
 import io.konga.metadata.annotations.FormStyle;
 import io.konga.metadata.annotations.FormType;
 import io.konga.metadata.annotations.Hint;
@@ -52,6 +54,11 @@ import io.konga.metadata.definition.enumerations.Stereotypes;
 @OverrideDefaults(
 	@Action(overrides="save", name="inner-save")
 )
+@FieldSets({
+	@FieldSet("General"),
+	@FieldSet("Operations"),
+	@FieldSet("Appearance")
+})
 public class KongaEntity {
 	
 	private Class<?> classFor;
@@ -69,6 +76,7 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Name")
+	@Hint("<b>Unique name for your entity</b>. This name will be used to identify your entity within Konga.")
 	@Type(DataTypes.STRING)
 	@EntityKey
 	@Searchable
@@ -77,7 +85,7 @@ public class KongaEntity {
 	@Editable
 	@Required
 	@MaxLength(40)
-	@Categories("Definition")
+	@FieldSet("General")
 	private String name;
 	
 	/**
@@ -85,6 +93,7 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Parent entity")
+	@Hint("Parent of this entity. This is useful if you are defining hierarchized items - e.g. if you are creating a \"Car\", whose parent would be \"Vehicle\"")
 	@Type(value=DataTypes.COMPLEX, complexType="konga-entity")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.SELECT)
 	@EntityLabel
@@ -92,7 +101,7 @@ public class KongaEntity {
 	@ShowInResults
 	@ShowInUpdate
 	@Editable
-	@Categories("Relationships")
+	@FieldSet("General")
 	private String superClass;
 	
 	/**
@@ -100,12 +109,13 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Label")
+	@Hint("A label renders the human-readable name for the entity. You can either use plain Strings, or a placeholder to a translated text")
 	@EntityLabel
 	@ShowInResults
 	@ShowInUpdate
 	@Editable
 	@Required
-	@Categories("Definition")
+	@FieldSet("General")
 	private String label;
 	
 	/**
@@ -113,9 +123,10 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Short label")
+	@Hint("Short version of the label. You can optionally define tables to render this label instead of the long one, to save screen space")
 	@ShowInUpdate
 	@Editable
-	@Categories("Definition")
+	@FieldSet("General")
 	private String shortLabel;
 	
 	/**
@@ -123,6 +134,7 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Visibility")
+	@Hint("Define how your entity will be shown in the app. PUBLIC entities are those who can work standalone - i.e. Users can perform operations directly on it - while SYSTEM entities define relationships that are hidden to the user")
 	@Searchable
 	@ShowInUpdate
 	@Editable
@@ -132,7 +144,7 @@ public class KongaEntity {
 	})
 	@Defaults("public")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
-	@Categories("Operations")
+	@FieldSet("Operations")
 	private AccessModes access;
 	
 	/**
@@ -147,18 +159,16 @@ public class KongaEntity {
 	@Label("Searchable")
 	@Type(DataTypes.BOOLEAN)
 	@io.konga.metadata.annotations.FieldType(update=FieldTypes.SWITCH)
-	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Operations")
+	@FieldSet("Operations")
 	private boolean searchEnabled;
 	
 	@Field("searchable")
 	@Label("For who?")
 	@Hint("Permission for search. Left blank for public")
-	@ShowInUpdate
 	@Editable
-	@Categories("Operations")
+	@FieldSet("Operations")
 	@io.konga.metadata.annotations.Linked(to="searchEnabled", via="permissions-checked")
 	private String searchable;
 	
@@ -169,18 +179,16 @@ public class KongaEntity {
 	@Label("Createable")
 	@Type(DataTypes.BOOLEAN)
 	@io.konga.metadata.annotations.FieldType(update=FieldTypes.SWITCH)
-	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Operations")
+	@FieldSet("Operations")
 	private boolean createEnabled;
 	
 	@Field("createable")
 	@Label("For who?")
 	@Hint("Permission for creating. Left blank for public")
-	@ShowInUpdate
 	@Editable
-	@Categories("Operations")
+	@FieldSet("Operations")
 	@io.konga.metadata.annotations.Linked(to="createEnabled", via="permissions-checked")
 	private String createable;
 	
@@ -191,18 +199,16 @@ public class KongaEntity {
 	@Label("Editable")
 	@Type(DataTypes.BOOLEAN)
 	@io.konga.metadata.annotations.FieldType(update=FieldTypes.SWITCH)
-	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Operations")
+	@FieldSet("Operations")
 	private boolean editEnabled;
 	
 	@Field("editable")
 	@Label("For who?")
 	@Hint("Permission for edition. Left blank for public")
-	@ShowInUpdate
 	@Editable
-	@Categories("Operations")
+	@FieldSet("Operations")
 	@io.konga.metadata.annotations.Linked(to="editEnabled", via="permissions-checked")
 	private String editable;
 	
@@ -213,18 +219,16 @@ public class KongaEntity {
 	@Label("Deleteable")
 	@Type(DataTypes.BOOLEAN)
 	@io.konga.metadata.annotations.FieldType(update=FieldTypes.SWITCH)
-	@ShowInUpdate
 	@Editable
 	@Defaults("false")
-	@Categories("Operations")
+	@FieldSet("Operations")
 	private boolean deletePermissions;
 	
 	@Field("deleteable")
 	@Label("For who?")
 	@Hint("Permission for search. If left blank, anybody could search this entity")
-	@ShowInUpdate
 	@Editable
-	@Categories("Operations")
+	@FieldSet("Operations")
 	@Linked(to="deleteEnabled", via="permissions-checked")
 	private String deleteable;
 	
@@ -244,7 +248,7 @@ public class KongaEntity {
 		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormTypes searchType;
 	
@@ -258,7 +262,7 @@ public class KongaEntity {
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
 	@Defaults("HORIZONTAL")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormStyles searchStyle;
 	
@@ -278,7 +282,7 @@ public class KongaEntity {
 		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormTypes resultsType;
 	
@@ -292,7 +296,7 @@ public class KongaEntity {
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
 	@Defaults("HORIZONTAL")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormStyles resultsStyle;
 	
@@ -312,7 +316,7 @@ public class KongaEntity {
 		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormTypes detailsType;
 	
@@ -326,7 +330,7 @@ public class KongaEntity {
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
 	@Defaults("HORIZONTAL")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormStyles detailsStyle;
 	
@@ -346,7 +350,7 @@ public class KongaEntity {
 		@Raw(key="CUSTOM", value="Custom")
 	})
 	@Defaults("CASCADE")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormTypes updateType;
 	
@@ -360,7 +364,7 @@ public class KongaEntity {
 		@Raw(key="HORIZONTAL", value="Label and input inline")
 	})
 	@Defaults("HORIZONTAL")
-	@Categories("Appearance")
+	@FieldSet("Appearance")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.COMBOBOX)
 	private FormStyles updateStyle;
 	
@@ -396,7 +400,7 @@ public class KongaEntity {
 	@Editable
 	@Type(DataTypes.STRING)
 	@Multiplicity(Multiplicities.MANY)
-	@Categories("Definition")
+	@FieldSet("General")
 	private List<String> categories;
 	
 	/**
@@ -409,7 +413,7 @@ public class KongaEntity {
 	 */
 	@Field
 	@Label("Fields")
-	@ShowInUpdate(fields={"id", "name", "type"})
+//	@ShowInUpdate(fields={"id", "name", "type"})
 	@Editable
 	@Type(value=DataTypes.COMPLEX, complexType="konga-field")
 	@io.konga.metadata.annotations.FieldType(FieldTypes.PICK_LIST)
@@ -436,7 +440,7 @@ public class KongaEntity {
 	@io.konga.metadata.annotations.FieldType(FieldTypes.PICK_LIST)
 	@Multiplicity(Multiplicities.MANY)
 	@Categories("Fields")
-	private List<FieldSet> fieldSets;
+	private List<io.konga.metadata.definition.FieldSet> fieldSets;
 	
 	/**
 	 * Entity actions
@@ -627,10 +631,10 @@ public class KongaEntity {
 	public void setResultClick(List<KongaAction> resultClick) {
 		this.resultClick = resultClick;
 	}
-	public List<FieldSet> getFieldSets() {
+	public List<io.konga.metadata.definition.FieldSet> getFieldSets() {
 		return fieldSets;
 	}
-	public void setFieldSets(List<FieldSet> fieldSets) {
+	public void setFieldSets(List<io.konga.metadata.definition.FieldSet> fieldSets) {
 		this.fieldSets = fieldSets;
 	}
 	public FormStyles getSearchStyle() {
