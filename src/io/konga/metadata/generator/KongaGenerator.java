@@ -160,6 +160,7 @@ public class KongaGenerator {
 		List<KongaEntity> entities = new ArrayList<KongaEntity>();
 		for(Class<?> source : sourceList) {
 			KongaEntity entity = KongaGenerator.generateEntity(source);
+			if(entity == null) continue;
 			entities.add(entity);
 		}
 		
@@ -178,6 +179,10 @@ public class KongaGenerator {
 		
 		// Get the entity annotation
 		Entity entityAnnotation = source.getAnnotation(annotationEntity);
+		
+		if(entityAnnotation == null) {
+			return null;
+		}
 		
 		// Setup the name
 		result.setName(KongaGenerator.getEntityName(source, entityAnnotation));

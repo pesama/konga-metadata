@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.konga</groupId>
 	<artifactId>konga-metadata</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	
 	<name>Konga Metadata Generator (For Java)</name>
 	<url>http://konga.io</url>
